@@ -1,0 +1,201 @@
+<div class="toolBar">
+  <div class="toolHeader">
+
+    <h6>Add</h6>
+
+  </div>
+
+  <div id="addTools">
+
+    <button type="button" name="button" ng-click="add('header')">Header</button>
+    <button type="button" name="button" ng-click="add('div')">Div</button>
+    <button type="button" name="button" ng-click="add('text')">Text</button>
+    <button type="button" name="button" ng-click="add('image')">Image</button>
+    <button type="button" name="button" ng-click="add('list')">List</button>
+    <button type="button" name="button" ng-click="add('button')">Btn</button>
+    <button type="button" name="button" ng-click="add('tab')">Tab</button>
+
+  </div>
+
+  <div id="editTools">
+
+    <div class="toolHeader">
+
+      <h6 class="">Size</h6>
+
+    </div>
+
+    <div id="sizeTools">
+
+      <div class="inputDiv">
+
+        <label for="heightInput">H</label>
+        <input type="number" name="heightInput" id="heightInput" value="" ng-model="height" ng-change="edit('height')">
+
+      </div>
+
+      <div class="inputDiv">
+
+        <label for="widthInput">W</label>
+        <input type="number" name="widthInput" value="" id="widthInput" ng-model="width" ng-change="edit('width')">
+
+      </div>
+
+    </div>
+
+    <div class="toolHeader">
+
+      <h6 class="">Margins</h6>
+
+    </div>
+
+    <div id="marginTools">
+
+      <div class="inputDiv">
+
+        <label for="lMarginInput">L</label>
+        <input type="number" name="heightInput" id="lMarginInput" value="0">
+
+      </div>
+      <div class="inputDiv">
+
+        <label for="rMarginInput">R</label>
+        <input type="number" name="rMarginInput" id="rMarginInput" value="0">
+
+      </div>
+      <div class="inputDiv">
+
+        <label for="tMarginInput">T</label>
+        <input type="number" name="tMarginInput" id="tMarginInput" value="0">
+
+      </div>
+      <div class="inputDiv">
+
+        <label for="bMarginInput">B</label>
+        <input type="number" name="bMarginInput" id="bMarginInput" value="0">
+
+      </div>
+
+    </div>
+
+    <div class="toolHeader">
+
+      <h6 class="">Padding</h6>
+
+    </div>
+
+    <div id="paddingTools">
+      <div class="inputDiv">
+
+        <label for="lPaddingInput">L</label>
+        <input type="number" name="lPaddingInput"  id="lPaddingInput"value="0">
+
+      </div>
+      <div class="inputDiv">
+
+        <label for="rPaddingInput">R</label>
+        <input type="number" name="rPaddingInput" id="rPaddingInput" value="0">
+
+      </div>
+      <div class="inputDiv">
+
+        <label for="tPaddingInput">T</label>
+        <input type="number" name="tPaddingInput" id="tPaddingInput" value="0">
+
+      </div>
+      <div class="inputDiv">
+
+        <label for="bPaddingInput">B</label>
+        <input type="number" name="bPaddingInput" id="bPaddingInput" value="0">
+
+      </div>
+    </div>
+
+    <div class="toolHeader">
+
+      <h6 class="">Colors</h6>
+
+    </div>
+
+    <div id="colorTools">
+
+      <div class="inputDiv">
+
+        <label for="colorInput">Color</label>
+        <input type="color" name="colorInput" id="colorInput" value="#ffffff">
+
+      </div>
+
+      <div class="inputDiv">
+
+        <label for="colorOpacitytInput">Opacity</label>
+        <input type="number" name="colorOpacityInput" id="colorOpacityInput" value="">
+
+      </div>
+
+    </div>
+
+    <div class="toolHeader">
+
+      <h6 class="">Borders</h6>
+
+    </div>
+
+    <div id="borderTools">
+
+      <div class="inputDiv">
+
+        <button type="button" name="" value="Left">All</button>
+        <button type="button" name="" value="Left">Left</button>
+        <button type="button" name="" value="Right">Right</button>
+        <button type="button" name="" value="Top">Top</button>
+        <button type="button" name="" value="Bottom">Bottom</button>
+
+
+      </div>
+
+      <div class="inputDiv">
+
+        <label for="heightInput">Width</label>
+        <input type="number" name="" value="">
+
+      </div>
+      <div class="inputDiv">
+
+        <label for="heightInput">Style</label>
+        <select name="" value="">
+
+          <option class="" name="">Solid</option>
+          <option class="" name="">Dotted</option>
+          <option class="" name="">Inset</option>
+          <option class="" name="">Dashed</option>
+
+        </select>
+
+      </div>
+      <div class="inputDiv">
+
+        <label for="heightInput">Color</label>
+        <input type="color" name="" value="#000000">
+
+      </div>
+
+    </div>
+
+  </div>
+  <div id="layoutTree">
+    <div class="" ng-repeat="object in memory.objects">
+      <div class="treeBranch" ng-click="select(object)">
+        <h3>- {{ object.htmlId }}</h3>
+
+        <div class="subTreeBranch" ng-repeat="child in object.children">
+          <div class="">
+
+            <h3>-- {{ child.htmlId }}</h3>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
