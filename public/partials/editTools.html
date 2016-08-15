@@ -185,13 +185,13 @@
   </div>
   <div id="layoutTree">
     <div class="" ng-repeat="object in memory.objects">
-      <div class="treeBranch" ng-click="select(object)">
-        <h3>- {{ object.htmlId }}</h3>
+      <div class="treeBranch">
+        <h3 ng-click="select(object)">- {{ object.htmlId }}</h3>
 
         <div class="subTreeBranch" ng-repeat="child in object.children">
           <div class="">
 
-            <h3>-- {{ child.htmlId }}</h3>
+            <h3 ng-click="select(child)">-- {{ child.htmlId }}</h3>
 
           </div>
         </div>
