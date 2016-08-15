@@ -150,7 +150,8 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', function($scope, $q, $http)
 
     if (obj === 'root') {
       $scope.loc[0] = '#designView';
-      $('input').val(0)
+      $('.numberInputs').val(0);
+      $('#colorInpit').val('#ffffff');
       return;
     }
 
