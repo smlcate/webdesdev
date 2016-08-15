@@ -8,6 +8,23 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', function($scope, $q, $http)
   $scope.branch = [];
   $scope.projects = [];
 
+  function ancestry(e) {
+
+    if (!$scope.branch.length) {
+      return
+    }
+
+    obj = $scope.memory.objects[$scope.branch[0]]
+
+    for (var i = 1; i < $scope.branch.length; i++) {
+      obj = obj.children[$scope.branch[i]]
+    }
+    obj.children.push(e)
+
+    return obj;
+
+  }
+
   function newObj(type) {
 
     if ($scope.loc[0] === '#designView') {
@@ -60,7 +77,7 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', function($scope, $q, $http)
         object.height = 20;
       }
       if (type === 'image') {
-        object.width = 'auto';
+        object.width = 150;
         object.height = 100;
       }
 
@@ -74,7 +91,7 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', function($scope, $q, $http)
       object.width = object.width/2
       object.height = object.height/2
       object.parents.push($scope.memory.objects[$scope.loc[1]].id);
-      $scope.memory.objects[$scope.loc[1]].children.push(object);
+      // $scope.memory.objects[$scope.loc[1]].children.push(object);
     }
     return object;
   }
@@ -115,13 +132,27 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', function($scope, $q, $http)
     if(s == 'text') {var addWhat = items.text}
     if(s == 'image') {var addWhat = items.image}
 
-    $($scope.loc[0]).append(addWhat);
+    if (s == 'header') {
+
+      $($scope.loc[0]).prepend(addWhat);
+
+    } else {
+
+      $($scope.loc[0]).append(addWhat);
+
+    }
+
+    ancestry(object);
 
   }
 
   $scope.select = function(obj) {
 
-    console.log(obj.level)
+    if (obj === 'root') {
+      $scope.loc[0] = '#designView';
+      $('input').val(0)
+      return;
+    }
 
     if (!obj.parents.length) {
       $scope.branch = [];
@@ -131,8 +162,6 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', function($scope, $q, $http)
     } else if ("#" + obj.htmlId != $scope.loc[0] && obj.level === $scope.branch.length) {
       $scope.branch[$scope.branch.length - 1] = obj.id;
     }
-
-    console.log($scope.branch)
 
     $scope.loc[0] = "#" + obj.htmlId;
     $scope.loc[1] = obj.id;
