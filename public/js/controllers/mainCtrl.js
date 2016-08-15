@@ -2,35 +2,71 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', function($scope, $q, $http)
 
   $scope.loc = ['#designView', null];
   $scope.memory = {
-    objects: []
+    objects: [],
+    count: 0
   };
+  $scope.branch = [];
   $scope.projects = [];
 
   function newObj(type) {
-    var object = {
-      type: type,
-      id: $scope.memory.objects.length,
-      htmlId: '#demoId' + $scope.memory.objects.length,
-      class: '',
-      height: 150,
-      width: 150,
-      parents: [],
-      children: []
+
+    if ($scope.loc[0] === '#designView') {
+
+      var object = {
+        type: type,
+        id: $scope.memory.objects.length,
+        htmlId: 'demoId' + $scope.memory.count,
+        class: '',
+        height: 150,
+        width: 150,
+        parents: [],
+        children: [],
+        level: 1
+      }
+
+      if (type === 'header') {
+        object.width = 600;
+        object.height = 100;
+      }
+      if (type === 'text') {
+        object.width = 100;
+        object.height = 20;
+      }
+      if (type === 'image') {
+        object.width = 'auto';
+        object.height = 100;
+      }
+
+    } else {
+
+      var object = {
+        type: type,
+        id: $scope.memory.objects[$scope.loc[1]].children.length,
+        htmlId: 'demoId' + $scope.memory.count,
+        class: '',
+        height: 100,
+        width: 100,
+        parents: [],
+        children: [],
+        level: $scope.branch.length + 1
+      }
+
+      if (type === 'header') {
+        object.width = 600;
+        object.height = 100;
+      }
+      if (type === 'text') {
+        object.width = 100;
+        object.height = 20;
+      }
+      if (type === 'image') {
+        object.width = 'auto';
+        object.height = 100;
+      }
+
     }
 
-    if (type === 'header') {
-      object.width = 600;
-      object.height = 100;
-    }
-    if (type === 'text') {
-      object.width = 100;
-      object.height = 20;
-    }
-    if (type === 'image') {
-      object.width = 'auto';
-      object.height = 100;
-    }
-
+    $scope.memory.count ++;
 
     if ($scope.loc[0] === '#designView') {
       $scope.memory.objects.push(object);
@@ -38,16 +74,16 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', function($scope, $q, $http)
       object.width = object.width/2
       object.height = object.height/2
       object.parents.push($scope.memory.objects[$scope.loc[1]].id);
-      object.id = $scope.memory.objects[$scope.loc[1]].children.length;
       $scope.memory.objects[$scope.loc[1]].children.push(object);
     }
     return object;
   }
 
+  //Temporary placement/method for returning pivotal data
   $scope.pivotal = function(){
 
     var config = {headers:{
-      'X-trackerToken': '29650c021950fdcccf14db0415bb1251'
+      'X-trackerToken': '29650c021950fdcccf14db0415bb1251' //This will be the users secret token
       }
     }
 
@@ -56,7 +92,6 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', function($scope, $q, $http)
       for (var i = 0; i < data.data.projects.length; i++) {
         $scope.projects.push(data.data.projects[i].project_name)
       }
-      console.log($scope.projects)
     })
     .catch(function(err){
       console.log(JSON.stringify(err.data))
@@ -85,9 +120,26 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', function($scope, $q, $http)
   }
 
   $scope.select = function(obj) {
-    $scope.loc[0] = obj.htmlId;
+
+    console.log(obj.level)
+
+    if (!obj.parents.length) {
+      $scope.branch = [];
+      $scope.branch.push(obj.id);
+    } else if("#" + obj.htmlId != $scope.loc[0] && obj.level != $scope.branch.length){
+      $scope.branch.push(obj.id);
+    } else if ("#" + obj.htmlId != $scope.loc[0] && obj.level === $scope.branch.length) {
+      $scope.branch[$scope.branch.length - 1] = obj.id;
+    }
+
+    console.log($scope.branch)
+
+    $scope.loc[0] = "#" + obj.htmlId;
     $scope.loc[1] = obj.id;
+
     $('#heightInput').val(obj.height);
+    $('#widthInput').val(obj.width);
+
   }
 
 }])
