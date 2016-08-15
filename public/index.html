@@ -1,0 +1,33 @@
+<html ng-app="mainApp">
+<head>
+  <link rel="stylesheet" href="styles/main.scss" media="screen" title="no title" charset="utf-8">
+  <script src="https://code.jquery.com/jquery-3.1.0.js" integrity="sha256-slogkvB1K3VOkzAI8QITxV3VzpOnkeNVsKvtkYLMjfk=" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.1/angular-ui-router.js" charset="utf-8"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.10/angular-resource.min.js"></script>
+  <script src="js/app.js" charset="utf-8"></script>
+  <script src="js/controllers/mainCtrl.js" charset="utf-8"></script>
+  <script src="js/directives/tools.js" charset="utf-8"></script>
+</head>
+<body ng-controller="mainCtrl">
+  <header id="siteHeader">
+    <h3>WebDesDev</h3>
+    <button type="button" name="button" ng-click="pivotal()">Get Pivotal Info</button>
+    <!-- <div ng-repeat="project in projects">
+
+      <p>{{ project }}</p>
+
+    </div> -->
+    {{ projects }}
+  </header>
+  <main>
+    <div id="designView">
+
+    </div>
+    <edit-tools></edit-tools>
+
+    </div>
+
+  </main>
+</body>
+</html>
