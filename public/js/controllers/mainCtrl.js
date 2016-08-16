@@ -21,7 +21,20 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', function($scope, $q, $http)
     }
     obj.children.push(e)
 
+    console.log($scope.memory.objects)
+
     return obj;
+
+  }
+
+  function hexToRgba(clr, opacity) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(clr);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16),
+        a: opacity
+    } : null;
 
   }
 
@@ -96,6 +109,66 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', function($scope, $q, $http)
     return object;
   }
 
+  var selections = {
+    border: 'all',
+    borderRadius: 'all'
+  }
+
+  function editSomething(what, type) {
+
+    var value = $("#" + what + "Input").val();
+
+    if(!type) {
+
+      $($scope.loc[0]).css(what, value + 'px');
+
+    } else if(type === 'color'){
+
+      value = $('#background-colorInput').val()
+      var opacity = $("#opacityInput").val();
+
+      var rgba = hexToRgba(value, opacity)
+
+      var rgbaString = 'rgba(' + rgba.r + ', ' + rgba.g + ', ' + rgba.b + ', ' + rgba.a + ')'
+      //
+      $($scope.loc[0]).css('background-color', rgbaString);
+
+    } else if(type === 'border') {
+
+      value = $("#borderWidthInput").val();
+      if (what === 'style') { value = $("#borderStyleInput").val(); }
+      if (what === 'color') { value = $("#borderColorInput").val(); }
+      if (what === 'radius') {
+        value = $("#borderRadiusInput").val();
+
+        console.log("border-" + what + ": " + value)
+
+        if (selections.border != 'all' && selections.borderRadius != 'all') {
+
+          $($scope.loc[0]).css('border-' + selections.borderRadius + '-' + what, value );
+
+        } else {
+
+            $($scope.loc[0]).css('border-' + what, value );
+        }
+      }
+
+      console.log(value)
+
+      if (selections.border != 'all' && selections.borderRadius != 'all') {
+
+        $($scope.loc[0]).css('border-' + selections.border + '-' + what, value );
+
+      } else {
+
+          $($scope.loc[0]).css('border-' + what, value );
+      }
+
+    }
+
+
+  }
+
   //Temporary placement/method for returning pivotal data
   $scope.pivotal = function(){
 
@@ -150,6 +223,7 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', function($scope, $q, $http)
 
     if (obj === 'root') {
       $scope.loc[0] = '#designView';
+      $scope.branch = [];
       $('.numberInputs').val(0);
       $('#colorInpit').val('#ffffff');
       return;
@@ -167,9 +241,25 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', function($scope, $q, $http)
     $scope.loc[0] = "#" + obj.htmlId;
     $scope.loc[1] = obj.id;
 
+    console.log($scope.branch)
+
     $('#heightInput').val(obj.height);
     $('#widthInput').val(obj.width);
 
+  }
+
+  $scope.edit = function(what, how) {
+    editSomething(what, how);
+  }
+
+  $scope.selectBorder = function(b) {
+    if (b === 'radius') {
+      selections.borderRadius = $("#border-radiusSelectInput").val();
+    } else {
+
+      selections.border = b;
+
+    }
   }
 
 }])
