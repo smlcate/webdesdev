@@ -30,14 +30,14 @@
       <div class="inputDiv">
 
         <label for="heightInput">H</label>
-        <input type="number" name="heightInput" id="heightInput" value="" ng-model="height" ng-change="edit('height')">
+        <input type="number" class="numberInputs" name="heightInput" id="heightInput" value="" ng-model="height" ng-change="edit('height')">
 
       </div>
 
       <div class="inputDiv">
 
         <label for="widthInput">W</label>
-        <input type="number" name="widthInput" value="" id="widthInput" ng-model="width" ng-change="edit('width')">
+        <input type="number" class="numberInputs" name="widthInput" value="" id="widthInput" ng-model="width" ng-change="edit('width')">
 
       </div>
 
@@ -54,25 +54,25 @@
       <div class="inputDiv">
 
         <label for="lMarginInput">L</label>
-        <input type="number" name="heightInput" id="lMarginInput" value="0">
+        <input type="number" class="numberInputs" name="heightInput" id="margin-leftInput" value="0" ng-model="marginL" ng-change="edit('margin-left')">
 
       </div>
       <div class="inputDiv">
 
         <label for="rMarginInput">R</label>
-        <input type="number" name="rMarginInput" id="rMarginInput" value="0">
+        <input type="number" class="numberInputs" name="rMarginInput" id="margin-rightInput" value="0" ng-model="marginR" ng-change="edit('margin-right')">
 
       </div>
       <div class="inputDiv">
 
         <label for="tMarginInput">T</label>
-        <input type="number" name="tMarginInput" id="tMarginInput" value="0">
+        <input type="number" class="numberInputs" name="tMarginInput" id="margin-topInput" value="0" ng-model="marginT" ng-change="edit('margin-top')">
 
       </div>
       <div class="inputDiv">
 
         <label for="bMarginInput">B</label>
-        <input type="number" name="bMarginInput" id="bMarginInput" value="0">
+        <input type="number" class="numberInputs" name="bMarginInput" id="margin-bottomInput" value="0" ng-model="marginB" ng-change="edit('margin-bottom')">
 
       </div>
 
@@ -88,25 +88,25 @@
       <div class="inputDiv">
 
         <label for="lPaddingInput">L</label>
-        <input type="number" name="lPaddingInput"  id="lPaddingInput"value="0">
+        <input type="number" class="numberInputs" name="lPaddingInput"  id="padding-leftInput"value="0" ng-model="paddingL" ng-change="edit('padding-left')">
 
       </div>
       <div class="inputDiv">
 
         <label for="rPaddingInput">R</label>
-        <input type="number" name="rPaddingInput" id="rPaddingInput" value="0">
+        <input type="number" class="numberInputs" name="rPaddingInput" id="padding-rightInput" value="0" ng-model="paddingR" ng-change="edit('padding-right')">
 
       </div>
       <div class="inputDiv">
 
         <label for="tPaddingInput">T</label>
-        <input type="number" name="tPaddingInput" id="tPaddingInput" value="0">
+        <input type="number" class="numberInputs" name="tPaddingInput" id="padding-topInput" value="0" ng-model="paddingT" ng-change="edit('padding-top')">
 
       </div>
       <div class="inputDiv">
 
         <label for="bPaddingInput">B</label>
-        <input type="number" name="bPaddingInput" id="bPaddingInput" value="0">
+        <input type="number" class="numberInputs" name="bPaddingInput" id="padding-bottomInput" value="0" ng-model="paddingB" ng-change="edit('padding-bottom')">
 
       </div>
     </div>
@@ -122,14 +122,14 @@
       <div class="inputDiv">
 
         <label for="colorInput">Color</label>
-        <input type="color" name="colorInput" id="colorInput" value="#ffffff">
+        <input type="color" name="colorInput" id="background-colorInput" value="#ffffff" ng-model="color" ng-change="edit('background-color', 'color')">
 
       </div>
 
       <div class="inputDiv">
 
         <label for="colorOpacitytInput">Opacity</label>
-        <input type="number" name="colorOpacityInput" id="colorOpacityInput" value="">
+        <input type="number" class="numberInputs" name="colorOpacityInput" id="opacityInput" value="1" min="0" max="1" step=".01" ng-model="opacity" ng-change="edit('opacity', 'color')">
 
       </div>
 
@@ -145,11 +145,11 @@
 
       <div class="inputDiv">
 
-        <button type="button" name="" value="Left">All</button>
-        <button type="button" name="" value="Left">Left</button>
-        <button type="button" name="" value="Right">Right</button>
-        <button type="button" name="" value="Top">Top</button>
-        <button type="button" name="" value="Bottom">Bottom</button>
+        <button type="button" name="" value="all" ng-click="selectBorder('all')">All</button>
+        <button type="button" name="" value="left" ng-click="selectBorder('left')">Left</button>
+        <button type="button" name="" value="right" ng-click="selectBorder('right')">Right</button>
+        <button type="button" name="" value="top" ng-click="selectBorder('top')">Top</button>
+        <button type="button" name="" value="bottom" ng-click="selectBorder('bottom')">Bottom</button>
 
 
       </div>
@@ -157,26 +157,42 @@
       <div class="inputDiv">
 
         <label for="heightInput">Width</label>
-        <input type="number" name="" value="">
+        <input type="number" class="numberInputs" name="" id="borderWidthInput" value="1" ng-model="borderWidth" ng-change="edit('width', 'border')">
 
       </div>
       <div class="inputDiv">
 
         <label for="heightInput">Style</label>
-        <select name="" value="">
+        <select name="" value="" id="borderStyleInput" ng-model="borderStyle" ng-change="edit('style', 'border')">
 
-          <option class="" name="">Solid</option>
-          <option class="" name="">Dotted</option>
-          <option class="" name="">Inset</option>
-          <option class="" name="">Dashed</option>
+          <option class="" name="" value="solid">Solid</option>
+          <option class="" name="" value="dotted">Dotted</option>
+          <option class="" name="" value="inset">Inset</option>
+          <option class="" name="" value="dashed">Dashed</option>
 
         </select>
 
       </div>
       <div class="inputDiv">
 
-        <label for="heightInput">Color</label>
-        <input type="color" name="" value="#000000">
+        <label for="colorInput">Color</label>
+        <input type="color" name="" id="borderColorInput"value="#000000" ng-model="borderColor" ng-change="edit('color', 'border')">
+
+      </div>
+      <div class="inputDiv">
+
+        <label for="radiusInput">Radius</label>
+        <select class="" name="" id="borderRadiusSelectInput" value="all" ng-model="borderRadiusSelect" ng-change="selectBorder('radius')">
+
+          <option value="all">All</option>
+          <option value="top-left">Top Left</option>
+          <option value="top-right">Top Right</option>
+          <option value="bottom-left">Bottom Left</option>
+          <option value="bottom-right">Bottom Right</option>
+
+        </select>
+
+        <input type="number" name="name" value="0" id="borderRadiusInput" ng-model="borderRadius" ng-change="edit('radius', 'border')">
 
       </div>
 
@@ -187,23 +203,22 @@
     <h3 ng-click="select('root')">Root</h3>
     <div class="" ng-repeat="object in memory.objects">
       <div class="treeBranch">
-        <h3 ng-click="select(object)">- {{ object.htmlId }}</h3>
+        <h3 ng-click="select(object)"> {{ object.htmlId }}</h3>
 
         <div class="subTreeBranch" ng-repeat="child in object.children">
           <div class="">
 
-            <h3 ng-click="select(child)">-- {{ child.htmlId }}</h3>
+            <h3 ng-click="select(child)"> {{ child.htmlId }}</h3>
 
           </div>
           <div class="subTreeBranch" ng-repeat="grandchild in child.children">
             <div class="">
 
-              <h3 ng-click="select(grandchild)">--- {{ grandchild.htmlId }}</h3>
+              <h3 ng-click="select(grandchild)"> {{ grandchild.htmlId }}</h3>
 
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </div>
