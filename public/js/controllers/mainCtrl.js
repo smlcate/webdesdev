@@ -141,15 +141,17 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', function($scope, $q, $http)
       if (what === 'radius') {
         value = $("#borderRadiusInput").val();
 
-        console.log("border-" + what + ": " + value)
 
-        if (selections.border != 'all' && selections.borderRadius != 'all') {
+        if (selections.borderRadius != 'all') {
 
-          $($scope.loc[0]).css('border-' + selections.borderRadius + '-' + what, value );
+          console.log("border-" + selections.borderRadius + "-radius: " + value )
+
+          $($scope.loc[0]).css("border-" + selections.borderRadius + "-radius", value + "px");
 
         } else {
 
-            $($scope.loc[0]).css('border-' + what, value );
+            console.log("border-radius: " + value)
+            $($scope.loc[0]).css('border-radius', value + "px");
         }
       }
 
@@ -254,7 +256,9 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', function($scope, $q, $http)
 
   $scope.selectBorder = function(b) {
     if (b === 'radius') {
-      selections.borderRadius = $("#border-radiusSelectInput").val();
+
+      selections.borderRadius = $("#borderRadiusSelectInput").val();
+
     } else {
 
       selections.border = b;
