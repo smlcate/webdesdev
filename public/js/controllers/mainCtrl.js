@@ -47,11 +47,62 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', function($scope, $q, $http)
         id: $scope.memory.objects.length,
         htmlId: 'demoId' + $scope.memory.count,
         class: '',
+        src: '',
         height: 150,
         width: 150,
+        backgroundColor: '#ffffff',
+        backgroundOpacity: 1,
+        color: '#aaaaaa',
+        margins: {
+          left: 0,
+          right: 0,
+          top: 0,
+          bottom: 0
+        },
+        paddings: {
+          left: 0,
+          right: 0,
+          top: 0,
+          bottom: 0
+        },
+        borders: {
+          left: {
+            width: 0,
+            style: 'solid',
+            color: 'black'
+          },
+          right: {
+            width: 0,
+            style: 'solid',
+            color: 'black'
+          },
+          top: {
+            width: 0,
+            style: 'solid',
+            color: 'black'
+          },
+          bottom: {
+            width: 0,
+            style: 'solid',
+            color: 'black'
+          },
+          radiis: {
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0
+          }
+        },
+        shadow: {
+          x: 0,
+          y: 0,
+          blur: 0,
+          spread: 0,
+          color: 'black'
+        },
         parents: [],
         children: [],
-        level: 1
+        level: $scope.branch.length + 1
       }
 
       if (type === 'header') {
@@ -74,8 +125,59 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', function($scope, $q, $http)
         id: $scope.memory.objects[$scope.loc[1]].children.length,
         htmlId: 'demoId' + $scope.memory.count,
         class: '',
+        src: '',
         height: 100,
         width: 100,
+        backgroundColor: '#ffffff',
+        backgroundOpacity: 1,
+        color: '#aaaaaa',
+        margins: {
+          left: 0,
+          right: 0,
+          top: 0,
+          bottom: 0
+        },
+        paddings: {
+          left: 0,
+          right: 0,
+          top: 0,
+          bottom: 0
+        },
+        borders: {
+          left: {
+            width: 0,
+            style: 'solid',
+            color: 'black'
+          },
+          right: {
+            width: 0,
+            style: 'solid',
+            color: 'black'
+          },
+          top: {
+            width: 0,
+            style: 'solid',
+            color: 'black'
+          },
+          bottom: {
+            width: 0,
+            style: 'solid',
+            color: 'black'
+          },
+          radiis: {
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0
+          }
+        },
+        shadow: {
+          x: 0,
+          y: 0,
+          blur: 0,
+          spread: 0,
+          color: 'black'
+        },
         parents: [],
         children: [],
         level: $scope.branch.length + 1
@@ -247,6 +349,20 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', function($scope, $q, $http)
 
     $('#heightInput').val(obj.height);
     $('#widthInput').val(obj.width);
+    $('#margin-leftInput').val(obj.margins.left);
+    $('#margin-rightInput').val(obj.margins.right);
+    $('#margin-topInput').val(obj.margins.top);
+    $('#margin-bottomInput').val(obj.margins.bottom);
+    $('#padding-leftInput').val(obj.paddings.left);
+    $('#padding-rightInput').val(obj.paddings.right);
+    $('#padding-topInput').val(obj.paddings.top);
+    $('#padding-bottomInput').val(obj.paddings.bottom);
+    $('#background-colorInput').val(obj.backgroundColor);
+    $('#opacityInput').val(obj.backgroundOpacity);
+    $('#widthInput').val(obj.width);
+    $('#widthInput').val(obj.width);
+
+
 
   }
 
@@ -264,6 +380,24 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', function($scope, $q, $http)
       selections.border = b;
 
     }
+  }
+
+  $scope.editShadow = function(what) {
+
+    var shadow = {
+      y: $('#shadowYInput').val() + 'px',
+      x: $('#shadowXInput').val() + 'px',
+      blur: $('#shadowBlurInput').val() + 'px',
+      radius: $('#shadowRadiusInput').val() + 'px',
+      color: hexToRgba($('#shadowColorInput').val(),$('#shadowOpacityInput').val())
+    }
+
+    var rgbaString = 'rgba(' + shadow.color.r + ',' + shadow.color.g + ',' + shadow.color.b + ',' + shadow.color.a + ')'
+
+    console.log(rgbaString);
+
+    $($scope.loc[0]).css('box-shadow', shadow.y, shadow.x, shadow.blur, shadow.radius, rgbaString);
+
   }
 
 }])

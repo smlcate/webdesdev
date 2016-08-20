@@ -81,6 +81,13 @@ input {
   width: 50px;
 }
 
+#shadowTools {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  padding-left: 7px;
+}
+
 
 #designView {
   width: 90vw;
