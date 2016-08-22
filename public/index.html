@@ -12,18 +12,21 @@
 <body ng-controller="mainCtrl">
   <header id="siteHeader">
     <h3>WebDesDev</h3>
-    <button type="button" name="button" ng-click="pivotal()">Get Pivotal Info</button>
+    <!-- <button type="button" name="button" ng-click="pivotal()">Get Pivotal Info</button> -->
 
-    <p ng-repeat="project in projects">{{ project }}</p>
+    <!-- <p ng-repeat="project in projects">{{ project }}</p> -->
+
+    <div id="siteNav">
+
+      <a href="/#/home">Home</a>
+      <a href="/#/login">Log In</a>
+      <a href="/#/signup">Sign Up</a>
+      <a href="/#/help">Help</a>
+
+    </div>
 
   </header>
-  <main>
-    <div id="designView">
-
-    </div>
-    <edit-tools></edit-tools>
-
-    </div>
+  <main ui-view>
 
   </main>
 </body>

@@ -19,6 +19,32 @@ main {
   background-color: lightgrey;
 }
 
+#validationDiv {
+  height: 80vh;
+  width: 60vw;
+  background-color: white;
+}
+
+.signinCell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#validationDiv h3 {
+  font-size: 35px;
+  align-self: center;
+}
+
+#validationDiv input {
+  width: 30vw;
+  height: 30px;
+  font-size: 20px;
+}
+#validationDiv pre {
+  font-size: 25px;
+}
+
 .toolbar {
   height: 100vh;
   width: 10vw;
