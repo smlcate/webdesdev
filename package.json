@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "ejs": "2.4.1",
-    "express": "^4.13.3"
+    "express": "^4.13.3",
+    "knex": "^0.11.10"
   }
 }

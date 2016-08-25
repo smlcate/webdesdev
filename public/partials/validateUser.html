@@ -1,4 +1,4 @@
-<div id="validationDiv">
+<div id="validationDiv" ng-controller="mainCtrl">
   <div class="signinCell">
     <h3>Sign up!</h3>
     <p>
@@ -7,9 +7,17 @@
   </div>
   <div class="signinCell">
 
-    <pre>Email Address: <input type="text" name="name" value=""></pre>
-    <pre>Password: <input type="password" name="name" value=""></pre>
-    <pre>Pivotal API Key: <input type="password" name="name" value=""></pre>
+    <form class="" ng-submit="submit()">
+
+      <pre>Email Address: <input type="text" name="email" id="emailInput" ng-model="email" value=""></pre>
+      <pre>Password: <input type="password" name="password" value="" ng-model="password"></pre>
+      <pre>Pivotal API Key: <input type="password" name="pivotalkey" ng-model="pivotalKey" value=""></pre>
+
+      <input type="submit" name="name" id="submitButton" value="Submit">
+
+    </form>
+
+
 
   </div>
 </div>

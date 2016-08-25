@@ -273,6 +273,13 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', function($scope, $q, $http)
 
   }
 
+  $scope.submit = function() {
+    $scope.user = {
+      email: $scope.email
+    }
+    console.log($scope.user)
+  }
+
   //Temporary placement/method for returning pivotal data
   $scope.pivotal = function(){
 
