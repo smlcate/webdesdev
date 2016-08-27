@@ -7,6 +7,18 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', function($scope, $q, $http)
   };
   $scope.branch = [];
   $scope.projects = [];
+  $scope.user = {
+    email: localStorage.email,
+    pivotalAPI: localStorage.pivotalAPI
+  };
+  $scope.session = true;
+
+  if($scope.user.email) {
+    $scope.session = false;
+  } else {
+    $scope.session = true;
+  }
+
 
   function ancestry(e) {
 
@@ -273,18 +285,77 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', function($scope, $q, $http)
 
   }
 
-  $scope.submit = function() {
-    $scope.user = {
-      email: $scope.email
+  app.config(function ($httpProvider) {
+    $httpProvider.interceptors.push('jwtInterceptor');
+  })
+  .service('jwtInterceptor', function jwtInterceptor(){
+    //TODO: Attach the token to every request.
+    return {
+      request: function(config) {
+        if (localStorage.jwt) {
+          config.headers.Authorization = 'Bearer ' + localStorage.jwt;
+          console.log('hello')
+        }
+        return config;
+      }
     }
-    console.log($scope.user)
+  })
+
+  $scope.submit = function($params, type) {
+
+
+    if(type === 'signup') {
+
+      $http.post('/signup', {'email':$params.email, 'password':$params.password, 'pivotalAPI':$params.pivotalKey})
+      .then(function(res) {
+
+        localStorage.jwt = res.data.token;
+        localStorage.email = res.data.email;
+        localStorage.pivotalAPI = res.data.pivotalAPI;
+      })
+      .catch(function(err) {
+        console.log(err);
+      })
+
+    }
+
+    if(type === 'login') {
+
+      $http.post('/login', {'email':$params.email, 'password':$params.password})
+      .then(function(res) {
+
+        localStorage.jwt = res.data.token;
+        localStorage.email = res.data.email;
+        localStorage.pivotalAPI = res.data.pivotalAPI;
+        $scope.session = false;
+
+      })
+      .catch(function(err) {
+        console.log(err);
+      })
+
+    }
+
+  }
+
+  $scope.logout = function() {
+
+    localStorage.jwt = null;
+    localStorage.email = null;
+    localStorage.pivotalAPI = null;
+
+    $scope.user.email = null;
+    $scope.user.pivotalAPI = null;
+
+    $scope.session = true;
+
   }
 
   //Temporary placement/method for returning pivotal data
   $scope.pivotal = function(){
 
     var config = {headers:{
-      'X-trackerToken': '29650c021950fdcccf14db0415bb1251' //This will be the users secret token
+      'X-trackerToken': $scope.user.pivotalAPI //This will be the users secret token
       }
     }
 

@@ -1,3 +1,4 @@
+
 var app = angular.module("mainApp", ['ui.router'])
 app.config(function($stateProvider, $urlRouterProvider) {
 
@@ -16,11 +17,15 @@ app.config(function($stateProvider, $urlRouterProvider) {
         })
         .state('login', {
             url: '/login',
-            templateUrl: './partials/validateUser.html'
+            templateUrl: './partials/login.html'
         })
         .state('signup', {
             url: '/signup',
-            templateUrl: './partials/validateUser.html'
+            templateUrl: './partials/signup.html'
+        })
+        .state('logout', {
+          url: '/logout',
+          templateUrl: './partials/login.html'
         })
         //
         // // ABOUT PAGE AND MULTIPLE NAMED VIEWS =================================
