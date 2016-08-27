@@ -1,13 +1,13 @@
 <html ng-app="mainApp">
 <head>
   <link rel="stylesheet" href="styles/main.scss" media="screen" title="no title" charset="utf-8">
-  <script src="https://code.jquery.com/jquery-3.1.0.js" integrity="sha256-slogkvB1K3VOkzAI8QITxV3VzpOnkeNVsKvtkYLMjfk=" crossorigin="anonymous"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.1/angular-ui-router.js" charset="utf-8"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.10/angular-resource.min.js"></script>
-  <script src="js/app.js" charset="utf-8"></script>
-  <script src="js/controllers/mainCtrl.js" charset="utf-8"></script>
-  <script src="js/directives/tools.js" charset="utf-8"></script>
+  <script defer src="https://code.jquery.com/jquery-3.1.0.js" integrity="sha256-slogkvB1K3VOkzAI8QITxV3VzpOnkeNVsKvtkYLMjfk=" crossorigin="anonymous"></script>
+  <script defer src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.1/angular-ui-router.js" charset="utf-8"></script>
+  <script defer src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.10/angular-resource.min.js"></script>
+  <script defer src="js/app.js" charset="utf-8"></script>
+  <script defer src="js/controllers/mainCtrl.js" charset="utf-8"></script>
+  <script defer src="js/directives/tools.js" charset="utf-8"></script>
 </head>
 <body ng-controller="mainCtrl">
   <header id="siteHeader">
@@ -19,11 +19,15 @@
     <div id="siteNav">
 
       <a href="/#/home">Home</a>
-      <a href="/#/login">Log In</a>
-      <a href="/#/signup">Sign Up</a>
+      <a href="/#/login" ng-show="session">Log In</a>
+      <a href="/#/signup" ng-show="session">Sign Up</a>
+      <a href="/#/logout" ng-hide="session" ng-click="logout()">Log Out</a>
       <a href="/#/help">Help</a>
 
     </div>
+
+    <h3>{{ user.email }}</h3>
+
 
   </header>
   <main ui-view>

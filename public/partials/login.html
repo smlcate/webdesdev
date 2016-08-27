@@ -1,0 +1,23 @@
+<div id="validationDiv" ng-controller="mainCtrl">
+  <div class="signinCell">
+    <h3>Sign up!</h3>
+    <p>
+      Save projects, track project stories via Pivotal Tracker, Build, Commit, and Deploy
+    </p>
+  </div>
+  <div class="signinCell">
+
+    <form class="" ng-submit="submit(frm, 'login')">
+
+      <pre>Email Address: <input type="text" name="email" id="emailInput" ng-model="frm.email" value=""></pre>
+      <pre>Password: <input type="password" name="password" value="" ng-model="frm.password"></pre>
+      <!-- <pre>Pivotal API Key: <input type="password" name="pivotalkey" ng-model="frm.pivotalKey" value=""></pre> -->
+
+      <input type="submit" name="name" id="submitButton" value="Submit">
+
+    </form>
+
+
+
+  </div>
+</div>
