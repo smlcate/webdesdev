@@ -24,7 +24,7 @@
       <a href="/#/logout" ng-hide="session" ng-click="logout()">Log Out</a>
       <a href="/#/help">Help</a>
 
-    </div>
+    </div ng-if="user.email != null">
 
     <h3>{{ user.email }}</h3>
 

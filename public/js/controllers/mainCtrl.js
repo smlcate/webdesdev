@@ -340,9 +340,9 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', function($scope, $q, $http)
 
   $scope.logout = function() {
 
-    localStorage.jwt = null;
-    localStorage.email = null;
-    localStorage.pivotalAPI = null;
+    localStorage.jwt = '';
+    localStorage.email = '';
+    localStorage.pivotalAPI = '';
 
     $scope.user.email = null;
     $scope.user.pivotalAPI = null;

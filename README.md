@@ -30,8 +30,8 @@ Current features:
   - Pivotal Tracker
 - Current bugs:
   - Layout tree isn't perfect, limited to element depth, Throws Error
-  - Username shows null after Logout
-  - Username doesn't display after signup
+  <!-- - Username shows null after Logout -->
+  - Username displays undefined after signup
   - Some style inputs are currently useless, All working styles are in the features list
   - Page doesn't change on signup DO FIRST: create projects page
 - To Do:
