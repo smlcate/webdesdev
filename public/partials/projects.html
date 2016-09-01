@@ -1,0 +1,28 @@
+<div id="projectsContainer">
+
+  <div class="projects" ng-repeat="project in projects">
+
+    <div class="projectHeaders">
+      <div class="projectTools">
+        <button type="button" name="button" placeholder="pivotal image" ng-model="getPivotal" ng-change="getPivotal(project)">Pivotal Tracker</button>
+      </div>
+
+      <h2>{{project.title}}</h2>
+
+    </div>
+
+    <span class="projectFooters">
+
+      <p >
+        {{project.start}}
+      </p>
+
+      <p>
+        {{project.progress}}
+      </p>
+
+    </span>
+
+  </div>
+
+</div>

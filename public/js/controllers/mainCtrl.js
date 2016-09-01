@@ -6,7 +6,28 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', function($scope, $q, $http)
     count: 0
   };
   $scope.branch = [];
-  $scope.projects = [];
+  $scope.projects = [
+    {
+      title: 'WebDesDev',
+      start: '3 Weeks Ago',
+      progress: '80%'
+    },
+    {
+      title: 'Derpy McDerpFace',
+      start: '1 Year Ago',
+      progress: '100%'
+    },
+    {
+      title: 'Boaty McBoatFace',
+      start: '2 Days Ago',
+      progress: '24%'
+    },
+    {
+      title: 'Ninjas in Space 2000',
+      start: '40 Minutes Ago',
+      progress: '12%'
+    }
+  ];
   $scope.user = {
     email: localStorage.email,
     pivotalAPI: localStorage.pivotalAPI
@@ -285,6 +306,26 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', function($scope, $q, $http)
 
   }
 
+  //Temporary placement/method for returning pivotal data
+  function getPivotal(pivotal){
+
+    var config = {headers:{
+      'X-trackerToken': pivotal //This will be the users secret token
+      }
+    }
+
+    $http.get("https://www.pivotaltracker.com/services/v5/me", config)
+    .then(function(data){
+      for (var i = 0; i < data.data.projects.length; i++) {
+        $scope.projects.push(data.data.projects[i])
+      }
+    })
+    .catch(function(err){
+      console.log(JSON.stringify(err.data))
+    })
+
+  }
+
   app.config(function ($httpProvider) {
     $httpProvider.interceptors.push('jwtInterceptor');
   })
@@ -312,6 +353,28 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', function($scope, $q, $http)
         localStorage.jwt = res.data.token;
         localStorage.email = res.data.email;
         localStorage.pivotalAPI = res.data.pivotalAPI;
+        $scope.session = false;
+
+        function getPivotal(pivotal){
+          console.log(pivotal);
+
+          var config = {headers:{
+            'X-trackerToken': pivotal //This will be the users secret token
+            }
+          }
+
+          $http.get("https://www.pivotaltracker.com/services/v5/me", config)
+          .then(function(data){
+            for (var i = 0; i < data.data.projects.length; i++) {
+              $scope.projects.push(data.data.projects[i])
+            }
+          })
+          .catch(function(err){
+            console.log(JSON.stringify(err.data))
+          })
+
+        }
+
       })
       .catch(function(err) {
         console.log(err);
@@ -344,32 +407,14 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', function($scope, $q, $http)
     localStorage.email = '';
     localStorage.pivotalAPI = '';
 
-    $scope.user.email = null;
-    $scope.user.pivotalAPI = null;
+    $scope.user.email = '';
+    $scope.user.pivotalAPI = '';
 
     $scope.session = true;
 
   }
 
-  //Temporary placement/method for returning pivotal data
-  $scope.pivotal = function(){
 
-    var config = {headers:{
-      'X-trackerToken': $scope.user.pivotalAPI //This will be the users secret token
-      }
-    }
-
-    $http.get("https://www.pivotaltracker.com/services/v5/me", config)
-    .then(function(data){
-      for (var i = 0; i < data.data.projects.length; i++) {
-        $scope.projects.push(data.data.projects[i].project_name)
-      }
-    })
-    .catch(function(err){
-      console.log(JSON.stringify(err.data))
-    })
-
-  }
 
   $scope.add = function(s) {
 

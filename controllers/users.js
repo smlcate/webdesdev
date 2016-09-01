@@ -54,7 +54,7 @@ exports.logIn = function(req, res, next) {
 
     if(bcrypt.compareSync(req.body.email, data[0].password)){
 
-      res.send({token:jwt.sign(data[0],process.env.SECRET),email:data[0].email, pivotalAPI:data[0].pivotalAPI});
+      res.send({token:jwt.sign(data[0],process.env.SECRET),email:data[0].email, pivotalAPI:data[0].pivotalAPI}); 
 
     }
 
