@@ -1,4 +1,4 @@
-app.controller("mainCtrl", ["$scope", '$q', '$http', function($scope, $q, $http) {
+app.controller("mainCtrl", ["$scope", '$q', '$http', '$location', function($scope, $q, $http, User) {
 
   $scope.loc = ['#designView', null];
   $scope.memory = {
@@ -7,18 +7,8 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', function($scope, $q, $http)
   };
   $scope.branch = [];
   $scope.projects = [];
-  $scope.user = {
-    email: localStorage.email,
-    pivotalAPI: localStorage.pivotalAPI
-  };
-  $scope.session = true;
 
-  if($scope.user.email) {
-    $scope.session = false;
-  } else {
-    $scope.session = true;
-  }
-
+  $scope.user = User;
 
   function ancestry(e) {
 
@@ -285,6 +275,9 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', function($scope, $q, $http)
 
   }
 
+  //Temporary placement/method for returning pivotal data
+
+
   app.config(function ($httpProvider) {
     $httpProvider.interceptors.push('jwtInterceptor');
   })
@@ -301,75 +294,93 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', function($scope, $q, $http)
     }
   })
 
+// var tempProjects = [];
+//
+function getPivotal($params, what) {
+
+  var config = {headers:{
+    'X-trackerToken': $scope.frm.pivotalKey //This will be the users secret token
+    }
+  }
+  var projects = [];
+
+  $http.get("https://www.pivotaltracker.com/services/v5/me", config)
+  .then(function(data){
+
+    projects = data.data.projects;
+
+    $http.post('/' + what, {'email':$params.email, 'password':$params.password, 'pivotalAPI':$params.pivotalKey, 'projects':data})
+    .then(function(res) {
+
+      localStorage.jwt = res.data.token;
+      localStorage.email = res.data.email;
+      localStorage.pivotalAPI = res.data.pivotalAPI;
+      $scope.session = false;
+
+      return projects;
+
+    })
+
+    return projects;
+
+  })
+
+  return projects;
+
+}
+
+  $scope.newProject = function(frm) {
+
+    $http.post('/newProject', frm)
+    .then(function(res) {
+      $scope.projects.push(res.data.data);
+
+      return $http.post('/makeFiles', res.data.data)
+      .then(function(res) {
+        console.log(res.data)
+      })
+
+    })
+
+  }
+
+  $scope.selectProject = function(project) {
+
+    $http.post('/selectProject', project)
+    .then(function(res) {
+      $scope.files = res.data.data.files;
+      console.log($scope.files);
+
+    })
+
+    // $location.path = '/#/design';
+  }
+
+
+
+
   $scope.submit = function($params, type) {
 
+    if(type === 'signup') getPivotal($params, 'signup');
 
-    if(type === 'signup') {
-
-      $http.post('/signup', {'email':$params.email, 'password':$params.password, 'pivotalAPI':$params.pivotalKey})
-      .then(function(res) {
-
-        localStorage.jwt = res.data.token;
-        localStorage.email = res.data.email;
-        localStorage.pivotalAPI = res.data.pivotalAPI;
-      })
-      .catch(function(err) {
-        console.log(err);
-      })
-
-    }
-
-    if(type === 'login') {
-
-      $http.post('/login', {'email':$params.email, 'password':$params.password})
-      .then(function(res) {
-
-        localStorage.jwt = res.data.token;
-        localStorage.email = res.data.email;
-        localStorage.pivotalAPI = res.data.pivotalAPI;
-        $scope.session = false;
-
-      })
-      .catch(function(err) {
-        console.log(err);
-      })
-
-    }
+    if(type === 'login') getPivotal('login');
 
   }
 
   $scope.logout = function() {
 
-    localStorage.jwt = null;
-    localStorage.email = null;
-    localStorage.pivotalAPI = null;
+    localStorage.jwt = '';
+    localStorage.email = '';
+    localStorage.pivotalAPI = '';
 
-    $scope.user.email = null;
-    $scope.user.pivotalAPI = null;
+    // $scope.user.email = '';
+    // $scope.user.pivotalAPI = '';
 
     $scope.session = true;
 
   }
 
-  //Temporary placement/method for returning pivotal data
-  $scope.pivotal = function(){
 
-    var config = {headers:{
-      'X-trackerToken': $scope.user.pivotalAPI //This will be the users secret token
-      }
-    }
-
-    $http.get("https://www.pivotaltracker.com/services/v5/me", config)
-    .then(function(data){
-      for (var i = 0; i < data.data.projects.length; i++) {
-        $scope.projects.push(data.data.projects[i].project_name)
-      }
-    })
-    .catch(function(err){
-      console.log(JSON.stringify(err.data))
-    })
-
-  }
 
   $scope.add = function(s) {
 

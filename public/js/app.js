@@ -9,7 +9,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
         // // HOME STATES AND NESTED VIEWS ========================================
         .state('home', {
             url: '/home',
-            templateUrl: './partials/designer.html'
+            templateUrl: './partials/projects.html'
         })
         .state('design', {
             url: '/design',
@@ -27,10 +27,14 @@ app.config(function($stateProvider, $urlRouterProvider) {
           url: '/logout',
           templateUrl: './partials/login.html'
         })
+
         //
         // // ABOUT PAGE AND MULTIPLE NAMED VIEWS =================================
         // .state('about', {
         //     // we'll get to this in a bit
         // });
+
+
+
 
 });

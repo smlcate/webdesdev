@@ -1,0 +1,24 @@
+<div id="projectsContainer" data-ng-controller="mainCtrl" data-ng-init="init()">
+
+  <div id="projectsHeader">
+    <button type="button" name="button" ng-click="newProject()">New</button>
+
+    <form ng-submit="newProject(frm)">
+
+      <input type="text" name="projectTitleInput" value="" placeholder="Title" ng-model="frm.projectTitle">
+
+      <label for="">Use Pivotal Tracker?</label><input type="checkbox" name="pivotalCheckbox" value="User Pivotal Tracker?" ng-model="frm.pivotalCheckbox">
+
+      <input type="submit" name="name" value="Send" >
+
+    </form>
+
+  </div>
+
+  <div class="projects" ng-repeat="project in projects" ng-click="selectProject(project)" href="/#/design">
+
+    <a href="/#/design">{{project[0].projectTitle}}</a>
+
+  </div>
+
+</div>
