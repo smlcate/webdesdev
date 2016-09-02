@@ -79,6 +79,85 @@ exports.logIn = function(req, res, next) {
 
 }
 
+exports.newProject = function(req, res, next) {
+
+  console.log(req.body);
+
+
+
+  knex('projects')
+  .insert(req.body)
+  .then(function() {
+    knex.select('*')
+    .from('projects')
+    .where({projectTitle:req.body.projectTitle})
+    .then(function(data) {
+      console.log(data);
+      res.send({data:data})
+    })
+    .catch(function(err) {
+      console.log(err);
+    })
+  })
+
+}
+
+exports.selectProject = function(req, res, next) {
+
+  console.log(req.body)
+
+  var project = req.body[0];
+
+
+
+  knex.select('*')
+  .from('files')
+  .where({'projectId':project.id})
+  .then(function(data) {
+    project.files = data;
+    console.log(project);
+    res.send({data:project})
+  })
+
+
+
+}
+
+exports.makeFiles = function(req, res, next) {
+
+  var files = [
+    {
+      projectId: req.body[0].id,
+      type: 'html',
+      name: 'index.html'
+    },
+    {
+      projectId: req.body[0].id,
+      type: 'css',
+      name: 'main.css'
+    }
+  ]
+
+
+  for (var i = 0; i < files.length; i++) {
+
+    knex('files')
+    .insert(files[i])
+    .then(function() {
+      return knex.select('*')
+      .from('files')
+      .where({'projectId':req.body[0].id})
+      .then(function(data) {
+
+      })
+      res.send('connected')
+    })
+
+  }
+
+
+}
+
 // exports.thisUser = function(req, res, next) {
 //
 //   return req.body

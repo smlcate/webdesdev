@@ -27,6 +27,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
           url: '/logout',
           templateUrl: './partials/login.html'
         })
+
         //
         // // ABOUT PAGE AND MULTIPLE NAMED VIEWS =================================
         // .state('about', {

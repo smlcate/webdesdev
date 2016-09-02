@@ -15,30 +15,9 @@
 
   </div>
 
-  <div class="projects" ng-repeat="project in projects">
+  <div class="projects" ng-repeat="project in projects" ng-click="selectProject(project)" href="/#/design">
 
-    <h1>{{project}}</h1>
-
-    <div class="projectHeaders">
-      <!-- <div class="projectTools">
-        <button type="button" name="button" placeholder="pivotal image" ng-model="getPivotal" ng-change="getPivotal(project)">Pivotal Tracker</button>
-      </div> -->
-
-      <!-- <h2>{{project.project_name}}</h2> -->
-
-    </div>
-
-    <span class="projectFooters">
-
-      <p >
-        <!-- {{project.start}} -->
-      </p>
-
-      <p>
-        <!-- {{project.progress}} -->
-      </p>
-
-    </span>
+    <a href="/#/design">{{project[0].projectTitle}}</a>
 
   </div>
 

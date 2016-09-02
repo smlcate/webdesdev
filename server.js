@@ -21,6 +21,15 @@ app.post('/signup',
 app.post('/login',
   userController.logIn);
 
+app.post('/newProject',
+  userController.newProject);
+
+app.post('/makeFiles',
+  userController.makeFiles);
+
+app.post('/selectProject',
+  userController.selectProject);
+
 // app.get('/user',
 //   userController.thisUser);
 

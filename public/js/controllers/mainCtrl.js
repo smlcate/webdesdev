@@ -1,4 +1,4 @@
-app.controller("mainCtrl", ["$scope", '$q', '$http', function($scope, $q, $http, User) {
+app.controller("mainCtrl", ["$scope", '$q', '$http', '$location', function($scope, $q, $http, User) {
 
   $scope.loc = ['#designView', null];
   $scope.memory = {
@@ -329,19 +329,32 @@ function getPivotal($params, what) {
 
 }
 
-$scope.newProject = function(frm) {
+  $scope.newProject = function(frm) {
 
-  console.log(frm);
+    $http.post('/newProject', frm)
+    .then(function(res) {
+      $scope.projects.push(res.data.data);
 
-  $scope.projects.push(frm.projectTitle);
+      return $http.post('/makeFiles', res.data.data)
+      .then(function(res) {
+        console.log(res.data)
+      })
 
-  console.log($scope.projects);
-  // $http.post('/newProject', frm)
-  // .then(function(data){
-  //   $scope.projects.push(frm.projectTitle);
-  // })
+    })
 
-}
+  }
+
+  $scope.selectProject = function(project) {
+
+    $http.post('/selectProject', project)
+    .then(function(res) {
+      $scope.files = res.data.data.files;
+      console.log($scope.files);
+
+    })
+
+    // $location.path = '/#/design';
+  }
 
 
 

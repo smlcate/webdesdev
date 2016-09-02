@@ -4,7 +4,7 @@ exports.up = function(knex, Promise) {
     table.increments();
     table.integer('pivotalId');
     table.integer('owner_id');
-    table.string('title');
+    table.string('projectTitle');
   })
 };
 
