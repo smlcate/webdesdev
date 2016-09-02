@@ -17,7 +17,7 @@ app.use(expressJWT({ secret: 'shhhh' }))
 
 exports.signUp = function(req, res, next) {
 
-  // console.log(req.body)
+  console.log(req.body.projects.data.projects)
 
   var hash = bcrypt.hashSync(req.body.email, bcrypt.genSaltSync(10));
 
@@ -27,12 +27,26 @@ exports.signUp = function(req, res, next) {
     pivotalAPI: req.body.pivotalAPI
   }
 
+
   knex('users')
   .insert(user)
   .then(function() {
-    console.log(user);
-    res.json({token:jwt.sign(user,process.env.SECRET),user:user});
+    knex('users')
+    .select('*')
+    .where({'email': user.email})
+    .then(function(data) {
+
+      console.log(data[0])
+
+      if(bcrypt.compareSync(req.body.email, data[0].password)){
+
+        res.send({token:jwt.sign(data[0],process.env.SECRET),email:data[0].email, pivotalAPI:data[0].pivotalAPI});
+
+      }
+
+    })
   })
+
   .catch(function(err) {
     console.log(err);
   })
@@ -41,7 +55,7 @@ exports.signUp = function(req, res, next) {
 
 exports.logIn = function(req, res, next) {
 
-  // console.log(req.body)
+  console.log(req.body.projects.data)
 
   var hash = bcrypt.hashSync(req.body.email, bcrypt.genSaltSync(10));
 
@@ -54,7 +68,7 @@ exports.logIn = function(req, res, next) {
 
     if(bcrypt.compareSync(req.body.email, data[0].password)){
 
-      res.send({token:jwt.sign(data[0],process.env.SECRET),email:data[0].email, pivotalAPI:data[0].pivotalAPI}); 
+      res.send({token:jwt.sign(data[0],process.env.SECRET),email:data[0].email, pivotalAPI:data[0].pivotalAPI});
 
     }
 
