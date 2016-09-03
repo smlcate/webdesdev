@@ -4,3 +4,9 @@ app.directive('editTools', function() {
     restrict: 'E'
   }
 })
+
+app.directive('designFooter', function() {
+  return{
+    templateUrl: 'partials/designFooter.html'
+  }
+})
