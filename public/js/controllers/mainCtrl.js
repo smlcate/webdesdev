@@ -344,6 +344,27 @@ function getPivotal($params, what) {
 
   $scope.newProject = function(frm) {
 
+    // var config = {headers:{
+    //   'Accept': application/vnd.github.v3+json
+    //   }
+    // }
+
+    $http.get('https://login/oauth/authorize')
+    .then(function(res) {
+      console.log(res.data);
+    })
+
+
+    $http.get('https://api.github.com/repos/smlcate/webdesdev')
+    .then(function(res) {
+      console.log(res.data);
+    })
+
+    $http.get('https://api.github.com/repos/smlcate/wddTestRepo/README')
+    .then(function(res) {
+      console.log(res.data);
+    })
+
     $http.post('/newProject', frm)
     .then(function(res) {
       $scope.projects.push(res.data.data);
