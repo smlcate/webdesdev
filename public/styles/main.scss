@@ -16,9 +16,10 @@ main {
   display: flex;
   flex-direction: column;
   width: 100vw;
-  height: 96vh;
+  // height: 96vh;
   margin-left: -7px;
   background: lightgrey;
+  // overflow-y: scroll;
 }
 
 #validationDiv {
@@ -262,6 +263,48 @@ input {
   height: 38%;
   // border-bottom: 1px solid white;
   color: white;
+}
+
+#someCodeDiv {
+  background: #272823;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 102vh;
+  width: 100vw;
+}
+
+
+.fileDivs {
+  height: 80vh;
+  width: 50vw;
+  background: #3e3e3e;
+  color: white;
+  font-size: 40px;
+  // padding: 40px;
+  border: 1px solid #505050;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  overflow-x: scroll;
+  overflow-y: scroll;
+}
+
+.fileDivs blockquote {
+  margin-left: 0px;
+  margin-top: -40px;
+  // border: 1px solid white;
+}
+.fileDivs pre {
+  margin-left: -120px;
+  // border: 1px solid white;
+}
+.fileDivs code {
+  margin-left: -100px;
+  // border: 1px solid white;
+  padding: 0px;
+  font-size: 20px;
 }
 
 .treeBranch {

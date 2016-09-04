@@ -7,6 +7,19 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', '$location', function($scop
   };
   $scope.branch = [];
   $scope.projects = [];
+  $scope.files = [
+    {
+      name: 'index.html',
+      code: [
+        '<html>',
+        '<head>',
+        "<link rel='stylesheet' href='main.css'>",
+        '</head>',
+        '<body></body>',
+        '</html>'
+      ]
+    }
+  ]
 
   $scope.user = User;
 
@@ -346,10 +359,29 @@ function getPivotal($params, what) {
 
   $scope.selectProject = function(project) {
 
+    function set$scope(files) {
+
+      localStorage.files = files;
+
+      // for (var i = 0; i < files.length; i++) {
+      //   // $scope.files.push(res.data.data.files[i])
+      //   console.log(files[i])
+      //   localStorage.files.push(files[i]);
+      // }
+    }
+
     $http.post('/selectProject', project)
     .then(function(res) {
-      $scope.files = res.data.data.files;
-      console.log($scope.files);
+      // $scope.files = res.data.data.files;
+      // localStorage.files = $scope.files;
+      // console.log($scope.files);
+      // $http.get('/getProject')
+      // .then(function(res) {
+      //   console.log(res);
+      // })
+      console.log(res);
+
+      set$scope(res.data.data.files);
 
     })
 
