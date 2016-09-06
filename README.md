@@ -3,7 +3,7 @@
 # V1.0.0 8/30/2016
 
 Current features:
-- HTML elements:
+- Inserting HTML elements:
   - Containers (Divs)
   - Headers
   - Images
@@ -19,23 +19,21 @@ Current features:
   - Border radius
 - Interface
   - Styled for testing, not for optimization (YET)
-  - Displays a working (Mostly) tree
+  - Displays a working tree
   - Tree is currently the only method to select elements
+  - Displays target element
+  - Displays HTML/CSS as it's created
 - Users:
   - Create new accounts
   - Login
   - Logout
-  - Displays current user (Not the best yet)
+  - Displays current user
 - API's:
   - Pivotal Tracker
+  - Github
 - Current bugs:
-  - Layout tree isn't perfect, limited to element depth, Throws Error
-  <!-- - Username shows null after Logout -->
-  - Username displays undefined after signup
   - Some style inputs are currently useless, All working styles are in the features list
-  - Page doesn't change on signup DO FIRST: create projects page
+  - Page doesn't change on signup
 - To Do:
-  - Make projects Page
   - Ability to save projects
-  - Display HTML/CSS in text
   - Finish adding styles!!!!
