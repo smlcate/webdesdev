@@ -1,9 +1,12 @@
-app.controller("mainCtrl", ["$scope", '$q', '$http', '$location', function($scope, $q, $http, User) {
+app.controller("mainCtrl", ["$scope", '$q', '$http', '$location', function($scope, $q, $http, User, $route) {
 
   $scope.loc = ['#designView', null];
   $scope.memory = {
     objects: [],
-    count: 0
+    count: 0,
+    projectId: localStorage.projectId,
+    project: localStorage.project,
+    projects: localStorage.projects
   };
   $scope.branch = [];
   $scope.projects = [];
@@ -34,7 +37,7 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', '$location', function($scop
 
   $scope.user = {
     email: localStorage.email,
-    id: localStorage.userid
+    id: localStorage.userId
   };
 
 
@@ -74,6 +77,8 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', '$location', function($scop
   }
 
   function newObj(type) {
+
+    console.log($scope.memory.projectId)
 
     if ($scope.loc[0] === '#designView') {
 
@@ -168,53 +173,6 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', '$location', function($scop
         backgroundOpacity: 1,
         color: '#aaaaaa',
         html:['<' + type + ' id="' + 'demoId' + $scope.memory.count + '"' + '>','</' + type + '>'],
-        margins: {
-          left: 0,
-          right: 0,
-          top: 0,
-          bottom: 0
-        },
-        paddings: {
-          left: 0,
-          right: 0,
-          top: 0,
-          bottom: 0
-        },
-        borders: {
-          left: {
-            width: 0,
-            style: 'solid',
-            color: 'black'
-          },
-          right: {
-            width: 0,
-            style: 'solid',
-            color: 'black'
-          },
-          top: {
-            width: 0,
-            style: 'solid',
-            color: 'black'
-          },
-          bottom: {
-            width: 0,
-            style: 'solid',
-            color: 'black'
-          },
-          radiis: {
-            left: 0,
-            right: 0,
-            top: 0,
-            bottom: 0
-          }
-        },
-        shadow: {
-          x: 0,
-          y: 0,
-          blur: 0,
-          spread: 0,
-          color: 'black'
-        },
         parents: [],
         children: [],
         level: $scope.branch.length + 1
@@ -359,10 +317,46 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', '$location', function($scop
 
   }
 
+  $scope.getProjects = function($params) {
+
+    console.log($scope.memory.projects);
+
+    $http.get('/getProjects/:' + localStorage.userId)
+    .then(function(res) {
+      // console.log(res.data);
+
+      localStorage.projects = res.data;
+
+      console.log($scope.memory.projects)
+
+    })
+
+  }
+
+  $scope.save = function($params) {
+
+    var data = $scope.memory;
+
+    console.log(data);
+
+    $http.post('/saveProject', data)
+    .then(function(res) {
+      console.log(res);
+    })
+
+  }
+
   //Temporary placement/method for returning pivotal data
 
   $scope.$watch('memory.objects', function(){
     // console.log('change');
+  })
+  $scope.$watch('memory.projectId', function(){
+    // console.log('change');
+  })
+
+  $scope.$watch('projects', function() {
+    console.log($scope.projects)
   })
 
 
@@ -447,7 +441,7 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', '$location', function($scop
       user: $scope.user
     }
 
-    $http.post('/newProject', frm)
+    $http.post('/newProject', data)
     .then(function(res) {
       $scope.projects.push(res.data.data);
 
@@ -463,32 +457,27 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', '$location', function($scop
 
   $scope.selectProject = function(project) {
 
-    function set$scope(files) {
+    function set$scope(data) {
 
-      localStorage.files = files;
-      $scope.files = files;
+      console.log(data.project)
 
-      // for (var i = 0; i < files.length; i++) {
-      //   // $scope.files.push(res.data.data.files[i])
-      //   console.log(files[i])
-      //   localStorage.files.push(files[i]);
-      // }
+      localStorage.files = data.files;
+      $scope.files = data.files;
+      $scope.memory.objects = data;
+      localStorage.projectId = data.files[0].projectId;
+      localStorage.project = data.project;
+
+      // console.log(data);
+
     }
 
     $http.post('/selectProject', project)
     .then(function(res) {
-      // $scope.files = res.data.data.files;
-      // localStorage.files = $scope.files;
-      // console.log($scope.files);
-      // $http.get('/getProject')
-      // .then(function(res) {
-      //   console.log(res);
-      // })
-      // console.log(res.data.data.file_data);
 
-      // console.log(res.data.files);
 
-      set$scope(res.data.files);
+      set$scope(res.data);
+
+      console.log($scope.memory.projectId)
 
 
     })

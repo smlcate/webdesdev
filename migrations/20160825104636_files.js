@@ -5,7 +5,7 @@ exports.up = function(knex, Promise) {
     table.integer('projectId')
     table.string('type'); //Example: JavaScript, HTML, CSS..
     table.string('name');
-    table.string('file_data'); //JSON
+    table.text('file_data'); //JSON
   })
 };
 
