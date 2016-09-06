@@ -4,6 +4,9 @@ var app = express();
 var knex = require('./db/knex');
 var bodyParser = require('body-parser');
 
+var github = require('octonode');
+
+
 // Models
 var User = require('./models/User');
 

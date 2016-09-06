@@ -23,17 +23,24 @@
       <div class="treeBranch">
         <h3 ng-click="select(object)"> {{ object.htmlId }}</h3>
 
-        <div class="subTreeBranch" ng-repeat="child in object.children">
+        <div class="subTreeBranch" ng-repeat="object in object.children">
           <div class="">
 
-            <h3 ng-click="select(child)"> {{ child.htmlId }}</h3>
+            <h3 ng-click="select(object)"> {{ object.htmlId }}</h3>
 
           </div>
-          <div class="subTreeBranch" ng-repeat="grandchild in child.children">
+          <div class="subTreeBranch" ng-repeat="object in object.children">
             <div class="">
 
-              <h3 ng-click="select(grandchild)"> {{ grandchild.htmlId }}</h3>
+              <h3 ng-click="select(object)"> {{ object.htmlId }}</h3>
 
+            </div>
+            <div class="subTreeBranch" ng-repeat="object in object.children">
+              <div class="">
+
+                <h3 ng-click="select(object)"> {{ object.htmlId }}</h3>
+
+              </div>
             </div>
           </div>
         </div>

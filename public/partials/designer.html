@@ -15,20 +15,63 @@
 
 <div id="someCodeDiv">
 
-  <div class="fileDivs">
+  <div class="fileDivs" >
 
-    <blockquote>
-      <pre>
-        <code ng-repeat="line in files[0].code">
-            {{line}}
-        </code>
-      </pre>
-    </blockquote>
+    <div class="" ng-repeat="object in memory.objects">
+
+      {{object.html[0]}}
+
+      <div class="" ng-repeat="object in object.children">
+
+        {{object.html[0]}}
+
+        <div class="" ng-repeat="object in object.children">
+
+          {{object.html[0]}}
+
+          {{object.html[1]}}
+
+        </div>
+
+        {{object.html[1]}}
+
+      </div>
+
+      {{object.html[1]}}
+
+
+    </div>
 
   </div>
+
   <div class="fileDivs">
 
-    {{file}}
+    <div class="" ng-repeat="style in styleData">
+
+      <p>
+        {{style.selector}} {
+      </p>
+      <p ng-repeat="line in style.data">
+        {{line.code}}
+      </p>
+      <p>
+        }
+      </p>
+
+    </div>
+
+  </div>
+
+    <!-- <div ng-repeat="line in memory.objects.html"> -->
+
+      <!-- {{line}} -->
+
+      <!-- <div class="" ng-repeat="line in object.html">
+
+      {{line}}
+
+      </div> -->
+    <!-- </div> -->
 
   </div>
 

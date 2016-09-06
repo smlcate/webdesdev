@@ -9,19 +9,34 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', '$location', function($scop
   $scope.projects = [];
   $scope.files = [
     {
-      name: 'index.html',
-      code: [
-        '<html>',
-        '<head>',
-        "<link rel='stylesheet' href='main.css'>",
-        '</head>',
-        '<body></body>',
-        '</html>'
+      type: 'html',
+      file_data: [
+      '<html>',
+      '<head>',
+      '<link rel="stylesheet" href="main.css">',
+      '</head>',
+      '<body>',
+      '</body>',
+      '</html>'
+      ]
+    },
+    {
+      type: 'css',
+      file_data: [
+        'main {}'
       ]
     }
   ]
 
-  $scope.user = User;
+  $scope.styleData = [];
+
+  $scope.github = {};
+
+  $scope.user = {
+    email: localStorage.email,
+    id: localStorage.userid
+  };
+
 
   function ancestry(e) {
 
@@ -30,15 +45,20 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', '$location', function($scop
     }
 
     obj = $scope.memory.objects[$scope.branch[0]]
+    count = 0;
 
     for (var i = 1; i < $scope.branch.length; i++) {
       obj = obj.children[$scope.branch[i]]
+      count++;
     }
     obj.children.push(e)
 
     console.log($scope.memory.objects)
 
-    return obj;
+    return data = {
+      obj: obj,
+      count: count
+    };
 
   }
 
@@ -68,6 +88,7 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', '$location', function($scop
         backgroundColor: '#ffffff',
         backgroundOpacity: 1,
         color: '#aaaaaa',
+        html:['<' + type + ' id="' + 'demoId' + $scope.memory.count + '"' + '>','</' + type + '>'],
         margins: {
           left: 0,
           right: 0,
@@ -137,7 +158,7 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', '$location', function($scop
 
       var object = {
         type: type,
-        id: $scope.memory.objects[$scope.loc[1]].children.length,
+        id: '',
         htmlId: 'demoId' + $scope.memory.count,
         class: '',
         src: '',
@@ -146,6 +167,7 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', '$location', function($scop
         backgroundColor: '#ffffff',
         backgroundOpacity: 1,
         color: '#aaaaaa',
+        html:['<' + type + ' id="' + 'demoId' + $scope.memory.count + '"' + '>','</' + type + '>'],
         margins: {
           left: 0,
           right: 0,
@@ -217,13 +239,58 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', '$location', function($scop
 
     if ($scope.loc[0] === '#designView') {
       $scope.memory.objects.push(object);
+      console.log($scope.memory.objects)
     } else {
       object.width = object.width/2
       object.height = object.height/2
       object.parents.push($scope.memory.objects[$scope.loc[1]].id);
+
+      var data = ancestry(object);
+
+      object.id = data.count;
+
+      // return data.obj;
       // $scope.memory.objects[$scope.loc[1]].children.push(object);
     }
     return object;
+  }
+
+  function writeCss(key,value) {
+
+    var style = {
+      selector: $scope.loc[0],
+      data: []
+    };
+
+
+
+    var data = {
+      key: key,
+      value: value,
+      code: key + ': ' + value + ';'
+    }
+
+    for (var i = 0; i < $scope.styleData.length; i++) {
+      if ($scope.styleData[i].selector === $scope.loc[0]) {
+        style = $scope.styleData[i];
+        for (var j = 0; j < style.data.length; j++) {
+          if (style.data[j].key === data.key) {
+            style.data[j] = data;
+            $scope.styleData[i] = style;
+            return;
+          }
+        }
+        style.data.push(data)
+        $scope.styleData[i] = (style);
+        return;
+      }
+    }
+
+    style.data.push(data);
+    $scope.styleData.push(style);
+
+    console.log($scope.styleData);
+
   }
 
   var selections = {
@@ -234,6 +301,10 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', '$location', function($scop
   function editSomething(what, type) {
 
     var value = $("#" + what + "Input").val();
+
+    writeCss(what, value);
+
+    console.log($scope.loc[0])
 
     if(!type) {
 
@@ -261,18 +332,18 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', '$location', function($scop
 
         if (selections.borderRadius != 'all') {
 
-          console.log("border-" + selections.borderRadius + "-radius: " + value )
+          // console.log("border-" + selections.borderRadius + "-radius: " + value )
 
           $($scope.loc[0]).css("border-" + selections.borderRadius + "-radius", value + "px");
 
         } else {
 
-            console.log("border-radius: " + value)
+            // console.log("border-radius: " + value)
             $($scope.loc[0]).css('border-radius', value + "px");
         }
       }
 
-      console.log(value)
+      // console.log(value)
 
       if (selections.border != 'all' && selections.borderRadius != 'all') {
 
@@ -290,6 +361,10 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', '$location', function($scop
 
   //Temporary placement/method for returning pivotal data
 
+  $scope.$watch('memory.objects', function(){
+    // console.log('change');
+  })
+
 
   app.config(function ($httpProvider) {
     $httpProvider.interceptors.push('jwtInterceptor');
@@ -300,7 +375,7 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', '$location', function($scop
       request: function(config) {
         if (localStorage.jwt) {
           config.headers.Authorization = 'Bearer ' + localStorage.jwt;
-          console.log('hello')
+          // console.log('hello')
         }
         return config;
       }
@@ -309,38 +384,40 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', '$location', function($scop
 
 // var tempProjects = [];
 //
-function getPivotal($params, what) {
-
-  var config = {headers:{
-    'X-trackerToken': $scope.frm.pivotalKey //This will be the users secret token
-    }
-  }
-  var projects = [];
-
-  $http.get("https://www.pivotaltracker.com/services/v5/me", config)
-  .then(function(data){
-
-    projects = data.data.projects;
-
-    $http.post('/' + what, {'email':$params.email, 'password':$params.password, 'pivotalAPI':$params.pivotalKey, 'projects':data})
-    .then(function(res) {
-
-      localStorage.jwt = res.data.token;
-      localStorage.email = res.data.email;
-      localStorage.pivotalAPI = res.data.pivotalAPI;
-      $scope.session = false;
-
-      return projects;
-
-    })
-
-    return projects;
-
-  })
-
-  return projects;
-
-}
+// function getPivotal($params, what) {
+//
+//   var config = {headers:{
+//     'X-trackerToken': $scope.frm.pivotalKey //This will be the users secret token
+//     }
+//   }
+//   var projects = [];
+//
+//   $http.get("https://www.pivotaltracker.com/services/v5/me", config)
+//   .then(function(data){
+//
+//     projects = data.data.projects;
+//
+    // $http.post('/' + what, {'email':$params.email, 'password':$params.password, 'pivotalAPI':$params.pivotalKey, 'projects':data})
+    // .then(function(res) {
+    //
+    //   console.log()
+    //
+    //   localStorage.jwt = res.data.token;
+    //   localStorage.email = res.data.email;
+    //   localStorage.pivotalAPI = res.data.pivotalAPI;
+    //   $scope.session = false;
+    //
+    //   return projects;
+    //
+    // })
+//
+//     return projects;
+//
+//   })
+//
+//   return projects;
+//
+// }
 
   $scope.newProject = function(frm) {
 
@@ -349,21 +426,26 @@ function getPivotal($params, what) {
     //   }
     // }
 
-    $http.get('https://login/oauth/authorize')
-    .then(function(res) {
-      console.log(res.data);
-    })
+    // $http.get('https://login/oauth/authorize/63f94c97b5cefc3def23')
+    // .then(function(res) {
+    //   console.log(res.data);
+    // })
 
 
-    $http.get('https://api.github.com/repos/smlcate/webdesdev')
-    .then(function(res) {
-      console.log(res.data);
-    })
+    // $http.get('https://api.github.com/repos/smlcate/webdesdev')
+    // .then(function(res) {
+    //   console.log(res.data);
+    // })
+    //
+    // $http.get('https://api.github.com/repos/smlcate/wddTestRepo/README')
+    // .then(function(res) {
+    //   console.log(res.data);
+    // })
 
-    $http.get('https://api.github.com/repos/smlcate/wddTestRepo/README')
-    .then(function(res) {
-      console.log(res.data);
-    })
+    var data = {
+      frm: $scope.frm,
+      user: $scope.user
+    }
 
     $http.post('/newProject', frm)
     .then(function(res) {
@@ -371,18 +453,20 @@ function getPivotal($params, what) {
 
       return $http.post('/makeFiles', res.data.data)
       .then(function(res) {
-        console.log(res.data)
+        // console.log(res.data)
       })
 
     })
 
   }
 
+
   $scope.selectProject = function(project) {
 
     function set$scope(files) {
 
       localStorage.files = files;
+      $scope.files = files;
 
       // for (var i = 0; i < files.length; i++) {
       //   // $scope.files.push(res.data.data.files[i])
@@ -400,9 +484,17 @@ function getPivotal($params, what) {
       // .then(function(res) {
       //   console.log(res);
       // })
-      console.log(res);
+      // console.log(res.data.data.file_data);
 
-      set$scope(res.data.data.files);
+      // console.log(res.data.files);
+
+      set$scope(res.data.files);
+
+
+    })
+    .then(function() {
+
+      console.log($scope.files)
 
     })
 
@@ -411,10 +503,67 @@ function getPivotal($params, what) {
 
 
 
+  // $scope.$watch('frm.githubUsername',function(newGithubUsername) {
+  //   if(newGithubUsername) console.log(newGithubUsername)
+  // })
+
+  // $http.get('/callback')
+  // .then(function(res) {
+  //
+  //   $http.post('https://github.com/login/oauth/access_token', config)
+  //   .then(function(res) {
+  //     console.log(res.data);
+  //   })
+  //
+  // })
+
 
   $scope.submit = function($params, type) {
 
-    if(type === 'signup') getPivotal($params, 'signup');
+
+
+    // var config = {headers:{
+    //   'client_id': '63f94c97b5cefc3def23',
+    //    'client_secret': 'c12db9485c65cfaf0265839952b605f1e7bcb870'
+    //   }
+    // }
+    // GithubActivityService.events({
+    //   user:'gigablox',
+    //   params:{
+    //     access_token:'n0t4r34l4cc3sst0k3n123',
+    //     callback:'JSON_CALLBACK'
+    //   }
+    // }).get().$promise.then(function(events){
+    //   $scope.activity = events.data;
+    // });
+
+    $scope.config = {
+      limit: 4
+    }
+
+    $scope.github = {
+      username: $params.githubUsername
+    }
+
+
+    if(type === 'signup') {
+
+      $http.post('/' + type, {'email':$params.email, 'password':$params.password, 'pivotalAPI':$params.pivotalKey, 'githubUsername':$params.githubUsername})
+      .then(function(res) {
+
+        // console.log(res.data.id)
+
+        localStorage.jwt = res.data.token;
+        localStorage.email = res.data.email;
+        localStorage.pivotalAPI = res.data.pivotalAPI;
+        localStorage.userId = res.data.id;
+        $scope.session = false;
+
+        // return projects;
+
+      })
+
+    }
 
     if(type === 'login') getPivotal('login');
 
@@ -439,6 +588,8 @@ function getPivotal($params, what) {
 
     var object = newObj(s);
 
+    console.log(object);
+
     var items = {
       header: "<header class='demoHeaders' id='" + object.htmlId + "'></header>",
       div: "<div class='demoDivs' id='" + object.htmlId + "'></div>",
@@ -461,11 +612,13 @@ function getPivotal($params, what) {
 
     }
 
-    ancestry(object);
+    // ancestry(object);
 
   }
 
   $scope.select = function(obj) {
+
+    console.log(obj);
 
     if (obj === 'root') {
       $scope.loc[0] = '#designView';
@@ -487,7 +640,7 @@ function getPivotal($params, what) {
     $scope.loc[0] = "#" + obj.htmlId;
     $scope.loc[1] = obj.id;
 
-    console.log($scope.branch)
+    // console.log($scope.branch)
 
     $('#heightInput').val(obj.height);
     $('#widthInput').val(obj.width);
@@ -536,7 +689,7 @@ function getPivotal($params, what) {
 
     var rgbaString = 'rgba(' + shadow.color.r + ',' + shadow.color.g + ',' + shadow.color.b + ',' + shadow.color.a + ')'
 
-    console.log(rgbaString);
+    // console.log(rgbaString);
 
     $($scope.loc[0]).css('box-shadow', shadow.y, shadow.x, shadow.blur, shadow.radius, rgbaString);
 
