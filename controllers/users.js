@@ -4,6 +4,8 @@ var app = express();
 var knex = require('../db/knex');
 var bodyParser = require('body-parser');
 var User = require('../models/User');
+var github = require('octonode');
+
 
 var expressJWT = require('express-jwt');
 var jwt = require('jsonwebtoken');
@@ -17,7 +19,15 @@ app.use(expressJWT({ secret: 'shhhh' }))
 
 exports.signUp = function(req, res, next) {
 
-  console.log(req.body.projects.data.projects)
+  var client = github.client();
+  var githubInfo;
+
+  // client.get('/users/' + req.body.githubUsername, {}, function (err, status, body, headers) {
+  //   console.log(body);
+  //   githubInfo = body;
+  // });
+
+  // console.log(req.body.projects.data.projects)
 
   var hash = bcrypt.hashSync(req.body.email, bcrypt.genSaltSync(10));
 
@@ -31,7 +41,7 @@ exports.signUp = function(req, res, next) {
   knex('users')
   .insert(user)
   .then(function() {
-    knex('users')
+    return knex('users')
     .select('*')
     .where({'email': user.email})
     .then(function(data) {
@@ -40,7 +50,7 @@ exports.signUp = function(req, res, next) {
 
       if(bcrypt.compareSync(req.body.email, data[0].password)){
 
-        res.send({token:jwt.sign(data[0],process.env.SECRET),email:data[0].email, pivotalAPI:data[0].pivotalAPI});
+        res.send({token:jwt.sign(data[0],process.env.SECRET),id:data[0].id,email:data[0].email, pivotalAPI:data[0].pivotalAPI});
 
       }
 
@@ -104,7 +114,7 @@ exports.newProject = function(req, res, next) {
 
 exports.selectProject = function(req, res, next) {
 
-  console.log(req.body)
+  // console.log(req.body)
 
   var project = req.body[0];
 
@@ -115,8 +125,8 @@ exports.selectProject = function(req, res, next) {
   .where({'projectId':project.id})
   .then(function(data) {
     project.files = data;
-    console.log(project);
-    res.send({data:project})
+    console.log(data);
+    res.send({files:data,project:project})
   })
 
 
@@ -135,7 +145,16 @@ exports.makeFiles = function(req, res, next) {
     {
       projectId: req.body[0].id,
       type: 'html',
-      name: 'index.html'
+      name: 'index.html',
+      file_data: [
+        '<html>',
+        '<head>',
+        '<link rel="stylesheet" href="main.css">',
+        '</head>',
+        '<body>',
+        '</body>',
+        '</html>'
+      ]
     },
     {
       projectId: req.body[0].id,
@@ -154,7 +173,7 @@ exports.makeFiles = function(req, res, next) {
       .from('files')
       .where({'projectId':req.body[0].id})
       .then(function(data) {
-
+        
       })
       res.send('connected')
     })

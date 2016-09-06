@@ -5,6 +5,7 @@ exports.up = function(knex, Promise) {
     table.string('email');
     table.string('password');
     table.string('pivotalAPI');
+    table.string('github');
   })
 };
 
