@@ -1,8 +1,13 @@
 <div class="centerDesignView">
 
-  <div id="designView">
+  <div id="designOverflow">
+
+    <div id="designView">
+
+    </div>
 
   </div>
+
   <edit-tools id="toolEditor"></edit-tools>
 
 </div>
@@ -15,65 +20,61 @@
 
 <div id="someCodeDiv">
 
-  <div class="fileDivs" >
+  <div id="someCodeDivHeader">
 
-    <div class="" ng-repeat="object in memory.objects">
+    <button type="button" name="button">Save</button>
 
-      {{object.html[0]}}
+  </div>
 
-      <div class="" ng-repeat="object in object.children">
+  <div id="codeContainer">
 
-        {{object.html[0]}}
+    <div class="fileDivs" >
 
-        <div class="" ng-repeat="object in object.children">
+      <div class="codeDiv" ng-repeat="object in memory.objects">
 
-          {{object.html[0]}}
+        <p>{{object.html[0]}}</p>
 
-          {{object.html[1]}}
+        <div class="codeDiv" ng-repeat="object in object.children">
+
+          <p>{{object.html[0]}}</p>
+
+          <div class="codeDiv" ng-repeat="object in object.children">
+
+            <p>{{object.html[0]}}</p>
+
+            <p>{{object.html[1]}}</p>
+
+          </div>
+
+          <p>{{object.html[1]}}</p>
 
         </div>
 
-        {{object.html[1]}}
+        <p>{{object.html[1]}}</p>
+
 
       </div>
 
-      {{object.html[1]}}
-
-
     </div>
 
-  </div>
+    <div class="fileDivs">
 
-  <div class="fileDivs">
+      <div class="styleDivs" ng-repeat="style in styleData">
 
-    <div class="" ng-repeat="style in styleData">
+        <p>
+          {{style.selector}} {
+          </p>
+          <p class="styleKeyDivs" ng-repeat="line in style.data">
+            {{line.code}}
+          </p>
+          <p>
+          }
+        </p>
 
-      <p>
-        {{style.selector}} {
-      </p>
-      <p ng-repeat="line in style.data">
-        {{line.code}}
-      </p>
-      <p>
-        }
-      </p>
+      </div>
 
     </div>
-
+    
   </div>
-
-    <!-- <div ng-repeat="line in memory.objects.html"> -->
-
-      <!-- {{line}} -->
-
-      <!-- <div class="" ng-repeat="line in object.html">
-
-      {{line}}
-
-      </div> -->
-    <!-- </div> -->
-
-  </div>
-
 
 </div>

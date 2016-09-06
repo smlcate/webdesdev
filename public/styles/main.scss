@@ -18,7 +18,7 @@ main {
   width: 100vw;
   // height: 96vh;
   margin-left: -7px;
-  background: lightgrey;
+  background: #272823;
   // overflow-y: scroll;
 }
 
@@ -52,7 +52,7 @@ main {
 }
 
 #projectsContainer {
-  background-image: -webkit-gradient(linear, left top, left bottom, from(lightgrey), to(g));  display: flex;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#3e3e3e), to(#272823));
   display: flex;
   flex-direction: column;
   // justify-content: space-around;
@@ -107,7 +107,7 @@ main {
   height: 66vh;
   width: 20vw;
   margin-top: 0px;
-  background-color: darkgrey;
+  background-color: #3e3e3e;
 }
 
 // .toolHeader {
@@ -121,7 +121,7 @@ edit-tools {
 }
 
 #designFooter {
-  background: darkgrey;
+  background: #3e3e3e;
   height: 29vh;
   width: 100vw;
   margin-bottom: 0px;
@@ -133,6 +133,7 @@ edit-tools {
   height: 100%;
   display: flex;
   flex-direction: column;
+  // border: 1px solid #505050;
   // justify-content: ;
 }
 
@@ -158,7 +159,11 @@ edit-tools {
 }
 
 .inputDiv input,label {
-  margin-top: 2px
+  margin-top: 2px;
+  font-weight: bold;
+  border-color: #505050;
+  border-radius: 5px;
+  background-image: -webkit-gradient(linear, top left, bottom right, from(#F5F5F5), to(#E0E0E0))
 }
 
 #fontInput {
@@ -227,7 +232,23 @@ label {
 
 #editTools {
   display: flex;
+  flex-direction: column;
   height: 30vh
+}
+
+#editToolsHeader {
+  width: 100%;
+  height: 10%;
+  padding-left: 10px;
+  border-bottom: 1px solid #505050;
+  display: flex;
+  color: #506eff;
+  font-weight: bold;
+  align-items: center;
+}
+
+#editToolsBody {
+  display: flex;
 }
 
 
@@ -248,10 +269,15 @@ input {
 //   color: white;
 //   padding-left: 7px;
 // }
-
+#designOverflow {
+  background: #272823;
+  width: 80vw;
+  display: flex;
+  justify-content: center;
+}
 
 #designView {
-  width: 80vw;
+  width: 66vw;
   height: 66vh;
   margin-top: 0px;
   align-self: center;
@@ -268,10 +294,29 @@ input {
 #someCodeDiv {
   background: #272823;
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
   align-items: center;
   height: 102vh;
   width: 100vw;
+}
+
+#someCodeDivHeader {
+  height: 10%;
+  width: 100%;
+  display: flex;
+  align-content: center;
+  justify-content: flex-start;
+}
+
+#someCodeDivHeader button {
+  font-size: 30px;
+}
+
+#codeContainer {
+  display: flex;
+  width: 100vw;
+  height: 90%;
 }
 
 
@@ -280,7 +325,7 @@ input {
   width: 50vw;
   background: #3e3e3e;
   color: white;
-  font-size: 40px;
+  font-size: 20px;
   // padding: 40px;
   border: 1px solid #505050;
   display: flex;
@@ -291,20 +336,16 @@ input {
   overflow-y: scroll;
 }
 
-.fileDivs blockquote {
-  margin-left: 0px;
-  margin-top: -40px;
-  // border: 1px solid white;
+.codeDiv {
+  padding-left: 20px;
 }
-.fileDivs pre {
-  margin-left: -120px;
-  // border: 1px solid white;
+
+.styleDivs {
+  padding-left: 20px;
 }
-.fileDivs code {
-  margin-left: -100px;
-  // border: 1px solid white;
-  padding: 0px;
-  font-size: 20px;
+
+.styleKeyDivs {
+  margin-left: 20px;
 }
 
 .treeBranch {
