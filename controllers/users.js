@@ -91,16 +91,17 @@ exports.logIn = function(req, res, next) {
 
 exports.newProject = function(req, res, next) {
 
-  console.log(req.body);
+  console.log(req.body.user);
 
-
+  var data = req.body.frm;
+  data.owner_id = req.body.user.id
 
   knex('projects')
-  .insert(req.body)
+  .insert(req.body.frm)
   .then(function() {
     knex.select('*')
     .from('projects')
-    .where({projectTitle:req.body.projectTitle})
+    .where({projectTitle:req.body.frm.projectTitle})
     .then(function(data) {
       console.log(data);
       res.send({data:data})
@@ -173,13 +174,53 @@ exports.makeFiles = function(req, res, next) {
       .from('files')
       .where({'projectId':req.body[0].id})
       .then(function(data) {
-        
+
       })
       res.send('connected')
     })
 
   }
 
+
+}
+
+exports.getProjects = function(req, res, next) {
+
+  knex.select('*')
+  .from('projects')
+  .where({owner_id:req.params.id.slice(1)})
+  .then(function(data) {
+    console.log(data);
+    res.send(data)
+  })
+
+}
+
+exports.saveProject = function(req,res,next) {
+
+
+  console.log(req.body.project)
+
+
+  knex('files')
+  .where({projectId: req.body.projectId})
+  .update({
+    file_data:JSON.stringify(req.body)
+  })
+  .then(function() {
+    return knex.select('*')
+    .from('files')
+    .where({projectId: req.body.projectId})
+    .then(function(res) {
+      console.log(res);
+    })
+
+  })
+  .catch(function(err) {
+    console.log(err);
+  })
+
+  res.send(req.body)
 
 }
 

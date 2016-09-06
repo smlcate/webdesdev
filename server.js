@@ -33,6 +33,12 @@ app.post('/makeFiles',
 app.post('/selectProject',
   userController.selectProject);
 
+app.post('/saveProject',
+  userController.saveProject);
+
+  app.get('/getProjects/:id',
+    userController.getProjects);
+
 // app.get('/user',
 //   userController.thisUser);
 
