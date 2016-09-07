@@ -54,9 +54,13 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', '$location', function($scop
       obj = obj.children[$scope.branch[i]]
       count++;
     }
-    obj.children.push(e)
+    if (e) {
 
-    console.log($scope.memory.objects)
+      obj.children.push(e)
+
+    }
+
+    // console.log($scope.memory.objects)
 
     return data = {
       obj: obj,
@@ -175,6 +179,56 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', '$location', function($scop
         html:['<' + type + ' id="' + 'demoId' + $scope.memory.count + '"' + '>','</' + type + '>'],
         parents: [],
         children: [],
+        level: $scope.branch.length + 1,
+        margins: {
+          left: 0,
+          right: 0,
+          top: 0,
+          bottom: 0
+        },
+        paddings: {
+          left: 0,
+          right: 0,
+          top: 0,
+          bottom: 0
+        },
+        borders: {
+          left: {
+            width: 0,
+            style: 'solid',
+            color: 'black'
+          },
+          right: {
+            width: 0,
+            style: 'solid',
+            color: 'black'
+          },
+          top: {
+            width: 0,
+            style: 'solid',
+            color: 'black'
+          },
+          bottom: {
+            width: 0,
+            style: 'solid',
+            color: 'black'
+          },
+          radiis: {
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0
+          }
+        },
+        shadow: {
+          x: 0,
+          y: 0,
+          blur: 0,
+          spread: 0,
+          color: 'black'
+        },
+        parents: [],
+        children: [],
         level: $scope.branch.length + 1
       }
 
@@ -258,15 +312,51 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', '$location', function($scop
 
   function editSomething(what, type) {
 
+    if (what == 'id') {
+      console.log($('#idInput').val())
+      $($scope.loc[0]).attr('id', $('#idInput').val());
+      $scope.loc[0] = "#" + $('#idInput').val();
+      console.log($scope.loc[0]);
+      console.log($($scope.loc[0]).attr('id'));
+
+      var data = ancestry();
+      data.obj.htmlId = $('#idInput').val();
+      data.obj.html[0] = '<' + data.obj.type + ' id="' + data.obj.htmlId + '" class="' + data.obj.class + '">'
+      console.log(data.obj.html);
+
+      return;
+    }
+
+    if (what == 'class') {
+      console.log($('#classInput').val())
+      $($scope.loc[0]).attr('class', $('#classInput').val());
+      // $scope.loc[0] = "." + $('#classInput').val();
+      console.log($scope.loc[0]);
+      console.log($($scope.loc[0]).attr('class'));
+
+      var data = ancestry();
+      data.obj.class = $('#classInput').val();
+      data.obj.html[0] = '<' + data.obj.type + ' id="' + data.obj.htmlId + '" class="' + data.obj.class + '">'
+      console.log(data.obj.html);
+
+      return;
+    }
+
+    if (what == 'text') {
+      console.log($('#valueInput').val())
+      $($scope.loc[0]).text($('#valueInput').val());
+      return;
+    }
+
     var value = $("#" + what + "Input").val();
 
-    writeCss(what, value);
 
-    console.log($scope.loc[0])
+    // console.log($scope.loc[0])
 
     if(!type) {
 
       $($scope.loc[0]).css(what, value + 'px');
+      return writeCss(what, value);
 
     } else if(type === 'color'){
 
@@ -278,6 +368,8 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', '$location', function($scop
       var rgbaString = 'rgba(' + rgba.r + ', ' + rgba.g + ', ' + rgba.b + ', ' + rgba.a + ')'
       //
       $($scope.loc[0]).css('background-color', rgbaString);
+
+      writeCss(what, rgbaString);
 
     } else if(type === 'border') {
 
@@ -617,11 +709,14 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', '$location', function($scop
       return;
     }
 
+    $scope.curObj = obj;
+
     if (!obj.parents.length) {
       $scope.branch = [];
       $scope.branch.push(obj.id);
     } else if("#" + obj.htmlId != $scope.loc[0] && obj.level != $scope.branch.length){
       $scope.branch.push(obj.id);
+
     } else if ("#" + obj.htmlId != $scope.loc[0] && obj.level === $scope.branch.length) {
       $scope.branch[$scope.branch.length - 1] = obj.id;
     }

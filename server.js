@@ -8,7 +8,7 @@ var github = require('octonode');
 
 
 // Models
-var User = require('./models/User');
+var User = require('./models/user');
 
 // Controllers
 var userController = require('./controllers/users');
