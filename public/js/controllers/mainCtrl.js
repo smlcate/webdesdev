@@ -258,6 +258,14 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', '$location', function($scop
 
   function editSomething(what, type) {
 
+    if (what == 'id') {
+      console.log($('#idInput').val())
+      $($scope.loc[0]).attr('id', $('#idInput').val());
+      $scope.loc[0] = "#" + $('#idInput').val();
+      console.log($scope.loc[0]);
+      console.log($($scope.loc[0]).attr('id'));
+    }
+
     if (what == 'text') {
       console.log($('#valueInput').val())
       $($scope.loc[0]).text($('#valueInput').val());
@@ -265,7 +273,7 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', '$location', function($scop
 
     var value = $("#" + what + "Input").val();
 
-    writeCss(what, value);
+    // writeCss(what, value);
 
     // console.log($scope.loc[0])
 
