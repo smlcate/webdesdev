@@ -20,13 +20,22 @@
   <div id="layoutTree">
     <h3 ng-click="select('root')">Root</h3>
     <div class="" ng-repeat="object in memory.objects">
-      <div class="treeBranch">
-        <h3 ng-click="select(object)"> {{ object.htmlId }}</h3>
+      <div class="treeBranch" >
+        <div class="branchContainer" ng-click="select(object)">
+
+          <h3 class="typeText"> {{ object.type }} </h3>
+          <h3 class="idText"> #{{ object.htmlId }}</h3>
+          <h3 class="classText"ng-if='curObj.class'> .{{ object.class }} </h3>
+
+        </div>
 
         <div class="subTreeBranch" ng-repeat="object in object.children">
-          <div class="">
+          <div class="branchContainer" ng-click="select(object)">
 
-            <h3 ng-click="select(object)"> {{ object.htmlId }}</h3>
+            <h3>-</h3>
+            <h3 class="typeText"> {{ object.type }} </h3>
+            <h3 class="idText"> #{{ object.htmlId }}</h3>
+            <h3 class="classText"ng-if='object.class'> .{{ object.class }} </h3>
 
           </div>
           <div class="subTreeBranch" ng-repeat="object in object.children">

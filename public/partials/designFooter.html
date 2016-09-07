@@ -1,7 +1,10 @@
 <div id="editTools">
 
-  <div id="editToolsHeader">
-    <p>{{loc[0]}}</p>
+  <div id="editToolsHeader" ng-if='curObj'>
+    <p>{{curObj.type}}</p>
+    <p class="idText">#{{curObj.htmlId}}</p>
+    <p class="classText" ng-if='curObj.class'>.{{curObj.class}}</p>
+
   </div>
 
   <div id="editToolsbody">
