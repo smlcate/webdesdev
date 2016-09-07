@@ -7,6 +7,11 @@ module.exports = {
     connection: {
       database: 'webdes'
     }
+  },
+
+  production : {
+    client: 'pg',
+    connection: process.env.DATABASE_URL
   }
 
   // staging: {
