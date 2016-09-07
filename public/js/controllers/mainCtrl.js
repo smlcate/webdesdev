@@ -258,11 +258,16 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', '$location', function($scop
 
   function editSomething(what, type) {
 
+    if (what == 'text') {
+      console.log($('#valueInput').val())
+      $($scope.loc[0]).text($('#valueInput').val());
+    }
+
     var value = $("#" + what + "Input").val();
 
     writeCss(what, value);
 
-    console.log($scope.loc[0])
+    // console.log($scope.loc[0])
 
     if(!type) {
 
