@@ -3,7 +3,7 @@ var express = require('express');
 var app = express();
 var knex = require('../db/knex');
 var bodyParser = require('body-parser');
-var User = require('../models/User');
+var User = require('../models/user');
 var github = require('octonode');
 
 
