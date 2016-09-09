@@ -312,15 +312,17 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', '$location', function($scop
 
   function editSomething(what, type) {
 
+    var value = $("#" + what + "Input").val();
+
     if (what == 'id') {
-      console.log($('#idInput').val())
-      $($scope.loc[0]).attr('id', $('#idInput').val());
-      $scope.loc[0] = "#" + $('#idInput').val();
+      console.log(value)
+      $($scope.loc[0]).attr('id', value);
+      $scope.loc[0] = "#" + value;
       console.log($scope.loc[0]);
       console.log($($scope.loc[0]).attr('id'));
 
       var data = ancestry();
-      data.obj.htmlId = $('#idInput').val();
+      data.obj.htmlId = value;
       data.obj.html[0] = '<' + data.obj.type + ' id="' + data.obj.htmlId + '" class="' + data.obj.class + '">'
       console.log(data.obj.html);
 
@@ -328,28 +330,33 @@ app.controller("mainCtrl", ["$scope", '$q', '$http', '$location', function($scop
     }
 
     if (what == 'class') {
-      console.log($('#classInput').val())
-      $($scope.loc[0]).attr('class', $('#classInput').val());
-      // $scope.loc[0] = "." + $('#classInput').val();
+      console.log(value)
+      $($scope.loc[0]).attr('class', value);
+      // $scope.loc[0] = "." + value;
       console.log($scope.loc[0]);
       console.log($($scope.loc[0]).attr('class'));
 
       var data = ancestry();
-      data.obj.class = $('#classInput').val();
+      data.obj.class = value;
       data.obj.html[0] = '<' + data.obj.type + ' id="' + data.obj.htmlId + '" class="' + data.obj.class + '">'
-      console.log(data.obj.html);
+      console.log(data);
 
       return;
     }
 
     if (what == 'text') {
-      console.log($('#valueInput').val())
-      $($scope.loc[0]).text($('#valueInput').val());
+      console.log(value)
+      $($scope.loc[0]).text(value);
       return;
     }
 
-    var value = $("#" + what + "Input").val();
+    if (what == 'font') {
+      console.log(value)
 
+      writeCss(what, rgbaString);
+
+      return;
+    }
 
     // console.log($scope.loc[0])
 
